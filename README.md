@@ -1,0 +1,3 @@
+# Reglemente
+
+Fysikteknologsektionens Reglemente. 
