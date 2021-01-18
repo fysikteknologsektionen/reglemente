@@ -1,65 +1,81 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[swedish]{babel}
 \usepackage{lmodern}
 \usepackage[dvips]{graphicx}
-\usepackage{latexsym}
-%\usepackage{here}
-\usepackage[swedish]{babel}
-\usepackage{fancyhdr} 
-\usepackage{lastpage}
-\usepackage{amssymb}
-\usepackage{moreverb}
-\usepackage{textfit}
-\usepackage{textcomp}
-\usepackage{eurosym}
-\usepackage{longtable}
-\usepackage{soul}
-\usepackage[normalem]{ulem}
-\usepackage{hyperref}
-\hypersetup{
-    linktoc=all
-}
+\usepackage{color} % Behövs för loggan på titelsidan
+\usepackage{fancyhdr} % För headers
+\usepackage{lastpage} % För att kunna referera till sistasidan i footern
+\usepackage[linktoc=all]{hyperref} % linktoc=all gör sidnumrena i innehållsförteckningen klickbara
+\usepackage[top=25mm, left=20mm, right=20mm, bottom=30mm]{geometry} % Argumenten beskriver marginalerna
+\usepackage{titlesec} % Används för att kunna lägga till funktionalitet till \(sub)(sub)section
+\usepackage{enumitem} % Används för att kunna justera avstånd och annat i itemize och enumerate
+\usepackage{tocloft} % Används för att ändra stilen på innehållsförteckningen
+\usepackage{CJKutf8} % Så att Monobi kan skrivas på japanska
 
-\usepackage{CJKutf8}
-
-\fancyhead[R]{Reglemente för Fysikteknologsektionen}
-\fancyfoot[C]{\thepage\ (\pageref{LastPage})}
+%%%% Headerstil %%%%
 \pagestyle{fancy}
+\fancyhead[L]{\includegraphics[height=3.5\baselineskip]{sektionslogo.png}}
+\fancyhead[R]{
+Reglemente för Fysikteknologsektionen \\
+\sectiontext\vspace{.3em}}
+\fancyfoot[C]{\thepage{} av~\pageref{LastPage}}
+\headheight 52pt
+\headsep 1.5em
+% \renewcommand{\sectionmark}[1]{\uppercase{\markright{#1}}} % Tar bort sectionnumret från headern
+\newcommand{\sectiontext}{INNEHÅLL}
+\newcommand{\tempsection}[1]{\section{#1} \renewcommand{\sectiontext}{\uppercase{#1}}} % Lite bökig lösning eftersom \markright inte vill funka som väntat av oklara anledningar...
+% \renewcommand{\subsectionmark}{} % Ser till att subsectionrubriker inte hamnar i headern. Oklart varför det behövs; i stadgan behövs det inte.
+
+%%%% Innehållsförteckningsstil %%%%
+\tocloftpagestyle{fancy} % Fixar headern på första innehållsförteckningssidan
+\renewcommand{\cfttoctitlefont}{\hfill\Huge\bfseries} % Ändrar utseendet på ''Innehåll'' i innehållsförteckningen
+\renewcommand{\cftaftertoctitle}{\hfill} % Centrerar ''Innehåll''
+\cftparskip .4ex % Ändrar mellanrummet mellan rubrikerna i innehållsförteckningen
+
+%%%% Paragrafhantering %%%%
+\setlist[itemize]{label=\textbullet, labelsep=1.2em} % Ändrar defaultlabeln för itemize till en punkt på alla nivåer och ger lite mer mellanrum ut till paragrafnumret
+\newlength{\sectitlew}\setlength{\sectitlew}{14mm} % Paragrafspaltens bredd
+\newcounter{par}[subsubsection] % Paragrafräknare
+\renewcommand\thepar{\thelevel.\arabic{par}} % Omdefinitionen görs för att smidigt kunna referera till paragrafer med \ref. \thelevel definieras nedan
+\newcommand{\pgf}{\refstepcounter{par} \item[\textsl{\thepar}]} % Stegar countern och låter countern refereras till med \ref. \textsl lutar texten utan att ändra typsnitt som \textit gör
+\titleformat{\section}[block]{\newpage\hspace*{-\sectitlew}\Large\bfseries}{\thesection}{1em}{\global\let\thelevel\thesection}      % Dessa tre rader justerar för indenteringen från paragraf-itemeizen
+\titleformat{\subsection}[block]{\hspace*{-\sectitlew}\large\bfseries}{\thesubsection}{1em}{\global\let\thelevel\thesubsection}     % De ändrar även \thelevel till den aktuella section-nivån
+\titleformat{\subsubsection}[block]{\hspace*{-\sectitlew}\bfseries}{\thesubsubsection}{1em}{\global\let\thelevel\thesubsubsection}  % \thelevel används sedan av paragrafräknaren
+
+%%%% Övrigt %%%%%
+\setlist[description]{labelsep=1.7ex} % Fixar avståndet mellan ''att'' och text i alla descriptions så att det blir mer naturligt
 \setlength{\parskip}{8pt}
-\setlength{\parindent}{0pt}
-\usepackage{enumerate}
 
 \begin{document}
-%---------------------------------------------------------
+
 % Titelsidan
-%---------------------------------------------------------
+\thispagestyle{empty} % Tar bort header och footer på omslaget
+\pagenumbering{gobble} % Ser till att omslaget inte räknas med i sidnumreringen
+\begin{center}
+  \textbf{\Huge{Reglemente för}}\\[3mm]
+  \textbf{\Huge{Fysikteknologsektionen}}\\
+  \vspace{.7 cm}
+  \textbf{\Large{Chalmers Studentkår}}
 
-\setlength{\headheight}{14pt}
-
-%\setcounter{page}{1}
-  \begin{center}
-    \textbf{\Huge{Reglemente för}}\\[3mm]
-    \textbf{\Huge{Fysikteknologsektionen}}\\
-    \vspace{.7 cm}
-    \textbf{\Large{Chalmers studentkår}}
-    
-    
-    \vfill
+  \vspace{1.25em}
+  \includegraphics[width=7.8cm]{sektionslogo.eps}
+  \vspace{1.25em}
     
     Utarbetad våren 2002\\[5mm]
     Baserad på tidigare stadga och reglemente för Fysikteknologsektionen,
     Maskinteknologsektionens reglemente från 2001, samt synpunkter
-    från förtroendevalda vid Fysikteknologsektionen våren 2002.\\[5mm]
+    från förtroendevalda vid Fysikteknologsektionen våren 2002.\\[4mm]
     Mattias Johansson\\
-    Sektionsordförande 2000/2001\\[5mm]
+    Sektionsordförande 2000/2001\\[4mm]
     Magnus Jonsson\\
-    Sektionskassör 2001/2002\\[5mm]
+    Sektionskassör 2001/2002\\[4mm]
     Carl Sunde\\
-    Lekmannarevisor ChS 2001/2002\\[5mm]
-    Omarbetad av sektionsstyrelsen våren 2007\\[5mm]
-    Uppdaterad av en av sektionsstyrelsen tillsatt arbetsgrupp våren 2012\\[5mm]
-    Omarbetad av en av sektionsmötet tillsatt arbetsgrupp hösten 2014 \\[5mm]
+    Lekmannarevisor ChS 2001/2002\\[4mm]
+    Omarbetad av sektionsstyrelsen våren 2007\\[4mm]
+    Uppdaterad av en av sektionsstyrelsen tillsatt arbetsgrupp våren 2012\\[4mm]
+    Omarbetad av en av sektionsmötet tillsatt arbetsgrupp hösten 2014 \\[4mm]
     Uppdaterad av sektionsstyrelsen våren 2016 \\
     Uppdaterad av sektionsstyrelsen våren 2017 \\
     Uppdaterad av sektionsstyrelsen hösten 2017 \\
@@ -67,1553 +83,990 @@
     \vspace{.3 cm}
     \small{Göteborg}\\
     \small{13:e april 2020}
-  \end{center}
+    \vspace{2.5em} % Av någon anledning är det här vspacet nödvändigt för att inte få header/footer på omslaget. Jag fattar inte alls varför, men jag pallar inte försöka förstå mig på det här längre. Wtf
+\end{center}
 
-\clearpage
-
-
+\setlength{\cftsubsecnumwidth}{2.8em} % Ökar avståndet mellan subsectionnumrena och deras rubriker i innehållsförteckningen. Mellanrummet blir onödigt stort för det mesta, men utan förändringen blir det jättetrångt i funktionärsavsnittet
+\pagenumbering{arabic} % Återställer sidnumreringen
 \tableofcontents
 
-\clearpage
+\begin{itemize}[leftmargin=\sectitlew] % leftmargin reglerar paragrafspaltens bredd. labelsep reglerar avståndet mellan paragrafnummer och text
+\tempsection{Medlemmar}
+	\subsection{Skyldigheter}
+		\pgf Medlem som går i första årskursen på programmet Teknisk fysik eller Teknisk matematik skall städa sektionslokalen.
+
+	\subsection{Ickeoffentliga dokument}
+		\pgf Följande dokument har medlem inte rätt att ta del av, såvida det inte behövs för sektionens verksamhet:
+			\begin{itemize}
+				\item Incidenthanteringsprotokoll
+				\item Dokument innehållande personuppgifter
+			\end{itemize}
+
+	\subsection{Hedersmedlemmar}
+        % \subsubsection{Förteckning}
+    	\pgf Fysikteknologsektionens hedersmedlemmar är:
+    		\begin{itemize}
+    			\item Valen Åke som strandade i Träslövsläge.
+    			\item Schrödingers katt, kanske.\footnote{Under sektionsmötet 2013--05--07 genomfördes en omröstning om nämnda katts medlemskap. Omröstningen skedde enligt mötets önskan genom sluten votering, och rösterna placerades i ett kuvert, som sedan förseglades. Schrödingers katt är därmed \textit{kanske} hedersmedlem.}
+    		\end{itemize}
+
+\tempsection{Sektionsmötet}
+	\subsection{Kallelse}
+		\pgf Kallelse till sektionsmöte  skall innehålla uppgifter om datum, tid och plats, samt preliminär föredragningslista. Denna skall anslås via sektionens officiella kommunikationskanaler.
+
+		\pgf Kallelse till sektionsmöte skall tillsändas sektionsmedlemmar, revisorer, inspektor och kårstyrelsen.
+
+	\subsection{Slutgiltig föredragningslista}
+		\pgf Slutgiltig föredragningslista skall bestå av slutgiltig dagordning, inkomna handlingar såsom revisionsberättelser, motioner, propositioner, rapporter samt nomineringar. Denna skall anslås via sektionens officiella kommunikationskanaler.
+
+		\pgf Slutgiltig föredragningslista till sektionsmöte skall tillsändas sektionsmedlemmar, revisorer, inspektor samt kårstyrelsen.
+
+	\subsection{Sammanträdesordning}
+		\pgf Sektionsmötet skall på sitt första möte varje verksamhetsår anta en mötesordning på förslag från föregående verksamhetsårs talman.
+
+	\subsection{Åligganden}
+		\pgf Det åligger sektionsmötet att innan utgången av läsperiod 1 utöver de i stadgarna definierade åliggandena välja:
+			\begin{itemize}
+				\item Årskursrepresentant till studienämnden.
+				\item Balnågonting.
+			\end{itemize}
+
+		\pgf Det åligger sektionsmötet att innan utgången av läsperiod 2 utöver de i stadgarna definierade åliggandena välja:
+			\begin{itemize}
+				\item Förtroendeposter i FARM
+				\item Ledamöter i FARM
+				\item Förtroendeposter i FnollK
+				\item Ledamöter i FnollK.
+			\end{itemize}
+
+		\pgf Det åligger sektionsmötet att innan utgången av läsperiod 3 utöver de i stadgarna definierade åliggandena välja:
+			\begin{itemize}
+				\item Bilnissar
+				\item Blodgrupp
+				\item Fanfareri
+				\item Finform
+				\item FIF
+				\item Kräldjursvårdare
+				\item Sektionsnörd
+				\item Spidera
+				\item Sångförmän
+				\item Bakisclubben (BC)
+				\item Game Boy
+				\item Piff och Puff
+				\item Foton
+				\item Fabiola
+				\item Mastermottagningsansvarig
+				\item Frisörer.
+			\end{itemize}
+
+		\pgf Det åligger sektionsmötet att innan utgången av  läsperiod 4 utöver de i stadgarna definierade åliggandena välja:
+			\begin{itemize}
+				\item Dragos
+				\item Sektionsstyrelse
+				\item Valberedning
+				\item Studienämnden, förutom årskursrepresentant
+				\item Förtroendeposter i Djungelpatrullen
+				\item Adjutanter i Djungelpatrullen
+				\item Förtroendeposter i F6
+				\item Ledamöter i F6
+				\item Förtroendeposter i Focumateriet
+				\item Ledamöter i Focumateriet
+				\item Revisorer
+				\item Talmanspresidiet
+				\item Fristående ledamöter i JämF.
+			\end{itemize}
+
+	\subsection{Talmanspresidiet}
+		\pgf Talmanspresidiet består av talman, vice talman och sekreterare. 
+		\pgf Det åligger talman att skicka ut kallelse och slutgiltiga handlingar inför sektionsmöten, lägga förslag på en mötesordning inför verksamhetsårets första sektionsmöte samt leda sektionsmöten. 
+		\pgf Det åligger vice talman att stödja talmannen i dennes arbete.
+		\pgf Det åligger sekreterare att föra protokoll under sektionsmöten samt tillse att protokollet justeras och anslås i tid. 
+		\pgf Vid talmannens frånvaro övertar vice talman dennes åliggande och befogenheter. 
+		\pgf Under sektionsmöten skall medlemmar av talmanspresidiet tilltalas Herr/Fru talman/vice talman/sekreterare. 
+		\pgf Talmanspresidet ska i sitt arbete agera opartiskt. 
+		\pgf Vid vakant post i talmanspresidiet väljer sektionsmötet in en person för det aktuella sektionsmötet på förslag av styrelsen. Personen får vara medlem i sektionsstyrelsen förutom när det gäller talman samt vice talman när denne skall överta talmannens arbete. 
+		\pgf Datum för ordinarie sektionsmöten ska fastställas av talmanspresidet på ett styrelsemöte i samråd med styrelsen.
+
+\tempsection{Valberedning och personval}
+	\subsection{Åligganden}
+		\pgf Det åligger valberedningen att ansvara för nomineringen till följande poster:
+			\begin{itemize}
+				\item Samtliga poster i sektionsstyrelsen
+				\item Samtliga förtroendeposter
+				\item Övriga poster i SNF
+				\item Övriga ledamöter i Djungelpatrullen
+				\item Övriga ledamöter i F6
+				\item Övriga ledamöter i Focumateriet
+				\item Övriga ledamöter i FARM
+				\item Övriga ledamöter i FnollK.
+			\end{itemize}
+
+		\pgf Det åligger valberedningen att anslå nomineringar till poster i sektionsstyrelsen, förtroendeposter och övriga medlemmar i sektionskommittéer senast 7 veckodagar före sektionsmöte då relevant inval äger rum. Nomineringarna skall anslås via någon av sektionens officiella informationskanaler.
+
+		\pgf Vid varje sektionsmöte, där det sker inval av poster där valberedningen ansvarar för nomineringar, skall valberedningen vara representerad.
+
+	\subsection{Val av förtroendeposter}
+		\pgf Förtroendeposter väljs av sektionsmötet.
+
+	\subsection{Val av övriga medlemmar i kommittéer}
+		\pgf Övriga medlemmar i kommitté nomineras i grupp av valberedningen. Sektionsstyrelsen behandlar godkännande eller avslag av valberedningens gruppnominering på ett styrelsemöte. Detta möte skall äga rum tidigast en dag efter att valberedningen anslagit nomineringar och senast samma dag som sektionsmötet för inval av förtroendeposter.
+
+		\pgf Vid godkännande av gruppnomineringen betraktas gruppen som preliminärt fastslagen. Besked om preliminär fastslagning anslås med nomineringarna omedelbart efter styrelsemötet.
+
+		\pgf Om sektionsmötet sedan väljer in alla förtroendeposter i berörd kommitté i enlighet med valberedningens nominering fastslås gruppen omedelbart och de övriga medlemmarna är att betrakta som invalda.
+
+		\pgf Om sektionsmötet inte väljer in alla förtroendeposter i berörd kommitté i enlighet med valberedningens nominering förkastas den preliminärt fastslagna gruppen. Därefter skall val av övriga medlemmar istället företas på sektionsmöte.
+
+		\pgf Vid avslag av gruppnomineringen företas val av övriga medlemmar på sektionsmöte. Eventuellt avslag skall grundas i en bedömning av valberedningens arbete eller i uppenbara oriktigheter som framkommit till sektionsstyrelsen. Besked om avslag och motivering till det skall anslås med nomineringarna omedelbart efter styrelsemöte.
+
+	\subsection{Val av övriga medlemmar i nämnder}
+		\pgf Övriga poster i nämnder väljs av sektionsmötet. 
+
+\tempsection{Sektionsstyrelsen}
+	\subsection{Sammansättning}
+		\pgf Sektionsstyrelsen består av följande förtroendeposter:
+			\begin{itemize}
+				\item Sektionsordförande
+				\item Vice sektionsordförande
+				\item Sektionskassör
+				\item Sekreterare
+				\item Skyddsombud
+				\item Informationsansvarig
+				\item Ordförande i SNF
+				\item Ordförande i FnollK
+				\item Ordförande i F6
+				\item Ordförande i FARM
+				\item Ordförande i Focumateriet
+				\item Ordförande i Djungelpatrullen
+			\end{itemize}
+
+		\pgf Villkor för ledamöter i sektionsstyrelsen:
+			\begin{itemize}
+				\item En kan ej inneha fler än en position i sektionsstyrelsen.
+				\item Revisor, talmanspresidiet eller ledamot av valberedningen kan ej vara medlem av sektionsstyrelsen.
+				\item Ledamot av sektionsstyrelsen kan ej inneha annan förtroendepost.
+			\end{itemize}
+
+		\pgf Suppleanter
+			\begin{itemize}
+				\item Vice ordförande i respektive kommitté samt studienämnden är suppleant i sektionsstyrelsen.
+				\item Suppleant övertar ordförandens befogenheter vid styrelsemöten vid ordförandens bortfall, undantaget då styrelsemötet hålls bakom stängda dörrar.
+			\end{itemize}
+
+	\subsection{Styrelsemöten}
+		\pgf Sektionsstyrelsen skall sammanträda minst 3 gånger per läsperiod.
+
+		\pgf Kallelse till styrelsemöte anslås av sektionsordföranden.
+
+		\pgf Kallelse till styrelsemöte skall senast två dagar innan mötet skickas till ordinarie ledamöter av sektionsstyrelsen, medlem av kommitté och nämnd, revisorer, talmanspresidiet samt övriga berörda sektionsföreningsmedlemmar och funktionärer.
+
+		\pgf Protokoll från styrelsemöten anslås via sektionens officiella kommunikationskanaler.
+
+		\pgf Ordinarie ledamöter av sektionsstyrelsen har närvaro-, yttrande-, förslags- och rösträtt. 
+
+		\pgf Talmannen har närvaro-, yttrande- och förslagsrätt. Vid frågor som direkt berör sektionsmöten har talmannen även rösträtt. 
+
+		\pgf Revisor och ledamöter av valberedningen har närvaro-, yttrande- och förslagsrätt.
+
+		\pgf Ledamöter av kommittéer och nämnd, samt sektionens inspektor, har närvaro- och yttranderätt.
+
+		\pgf Varje medlem har rätt att få fråga behandla på styrelsemöte. Denna ska då skickas till styrelsen senast tre dagar innan mötet.
+
+		\pgf Bakom stängda dörrar
+			\begin{itemize}
+				\item Sektionsstyrelsen kan, om synnerliga skäl föreligger, för visst ärende med minst 2/3 majoritet besluta att överläggning sker bakom stängda dörrar.
+				\item Enbart ordinarie ledamöter av sektionsstyrelsen äger närvarorätt vid möte bakom stängda dörrar.
+				\item Sektionsstyrelsen kan adjungera in övriga deltagare.
+				\item Endast beslutsprotokoll fört då mötet hålls bakom stängda dörrar skall anslås.
+				\item Det som diskuteras bakom stängda dörrar får ej föras vidare till tredje part. 
+			\end{itemize}
+
+	\subsection{Åligganden}
+		\pgf Det åligger sektionsstyrelsen:
+			\begin{description}
+				\item[att] verka för sammanhållningen mellan sektionsmedlemmarna och verka för deras gemensamma intressen.
+				\item[att] leda sektionens arbete.
+				\item[att] verkställa och övervaka genomförandet av sektionsmötesbeslut.
+				\item[att] framlägga budget till sektionsmötet.
+				\item[att] planera Fysikteknologsektionens framtida inriktning och verksamhet.
+				\item[att] fatta beslut i de ärenden som framlägges till sektionsstyrelsen.
+				\item[att] varje år tillsammans med studienämnden utse sektionens representanter i styrelser och kommittéer inom högskolan. Dock krävs för ledamöterna i Programrådet godkännande från sektionsmötet.
+				\item[att] granska och utse phaddergruppsansvariga under inrådan av FnollK.
+				\item[att] delta i de av Djungelpatrullen anordnade städdagarna två gånger per läsår. Om detta uppfylls får de närvarande gå gratis på nästa sektionsaktivafest.
+				\item[att] i samråd med de som önskar söka sektionsstyrelsen ta fram en preliminär verksamhetsplan och presentera denna på sektionsmöte innan utgången av läsperiod 4.
+				\item[att] följa de av sektionen upprättade arbetsordningarna.
+			\end{description}
+
+		\pgf Det åligger sektionsstyrelsens ordförande:
+			\begin{description}
+				\item[att] tillse att sektionens beslut verkställs.
+				\item[att] föra sektionens talan då något annat ej stadgats eller beslutats.
+				\item[att] teckna sektionens firma.
+				\item[att] tillse att sektionsmöten sammankallas.
+				\item[att] leda och övervaka arbetet inom sektionsstyrelsen.
+				\item[att] vara Fysikteknologsektionens representant i kårledningsutskottet.
+				\item[att] tillse att det finns representanter från sektionsstyrelsen i F:s eller TM:s programråd.
+				\item[att] tillsammans med sektionskassören ansvara för Fysikteknologsektionens ekonomi.
+			\end{description}
+            \noindent Sektionsordförande har full insyn i Fysikteknologsektionens alla organ och äger rätt att deltaga i deras möten med yttranderätt.
+
+		\pgf Det åligger sektionsstyrelsens vice ordförande:
+			\begin{description}
+				\item[att] i ordförandes frånvaro överta dennes åligganden.
+				\item[att] biträda ordföranden.
+				\item[att] i samråd med styrelsen och övriga sektionsaktiva upprätta sektionens verksamhetsberättelse.
+			\end{description}
+
+		\pgf Det åligger sektionsstyrelsens  kassör:
+			\begin{description}
+				\item[att] sköta och ansvara för Fysikteknologsektionens ekonomi tillsammans med ordföranden.
+				\item[att] fortlöpande kontrollera kommittéernas samt eventuella sektionföreningars räkenskaper och bokföring.
+				\item[att] teckna sektionens firma.
+				\item[att] genom Chalmers Studentkår uppbära sektionsavgiften.
+				\item[att] i samråd med sektionsstyrelsen upprätta preliminärt budgetförslag till första ordinarie höstmötet.
+				\item[att] till varje sektionsmöte kunna redogöra för sektionens ekonomiska ställning.
+			\end{description}
+
+		\pgf Det åligger sektionsstyrelsens sekreterare:
+			\begin{description}
+				\item[att] föra protokoll vid styrelsemöten och senast två läsdagar efter möte överräcka renskrivet protokoll till ordföranden.
+				\item[att] tillse att protokoll från styrelsemöten anslås.
+				\item[att] tillse att sektionens stadgar, reglemente och förordningar är aktuella och efterlevs.
+			\end{description}
+
+		\pgf Det åligger sektionsstyrelsens skyddsombud:
+			\begin{description}
+				\item[att] vara sektionens studerandearbetsmiljöombud enligt punkt 10.6 ''Fysikteknologsektionens Studerandearbetsmiljöombud'' samt vara Fysikteknologsektionens jämlikhetsansvarige. SAMO har i sitt uppdrag tystnadsplikt.
+				\item[att] tillvarata sektionsmedlemmarnas intressen i skyddsfrågor, jämlikhets- och jämställdhetsfrågor och samarbeta med Chalmers Studentkårs kontaktperson samt högskolans skyddsombud.
+				\item[att] deltaga på studienämndens möten då arbetsmiljöfrågor behandlas.
+				\item[att] leda arbetet i sektionens jämlikhetsråd, JämF.
+			\end{description}
+
+		\pgf Det åligger sektionsstyrelsens informationsansvariga:  
+			\begin{description}
+				\item[att] sköta kontakt med sektionen samt uppdatera sektionens hemsida. 
+				\item[att] tillse att material som inkommer till sektionen anslås eller på annat sätt förmedlas  till den/dem det berör.
+				\item[att] vara sektionsstyrelsens representant i Spidera.
+			\end{description}    
+
+		\pgf Det åligger sektionsstyrelsens övriga ledamöter:
+			\begin{description}
+				\item[att] bistå sektionsstyrelsen med information.
+				\item[att] aktivt deltaga i beslutsprocessen.
+				\item[att] redogöra för sin kommittés/studienämnds löpande verksamhet vid styrelsemöten.
+			\end{description}
 
 
-\section{Allmänt}
+\tempsection{Nämnder}
+    \subsection{Studienämnden}
+        \subsubsection{Villkor för ledamöter i studienämnden}
+    		\pgf En person kan ej inneha två poster i studienämnden samtidigt.
+    		\pgf Ekonomiskt ansvarig i studienämnden skall vara myndig.
+    		\pgf En person kan ej inneha ordförandepost i en kommitté eller nämnd samtidigt som denne innehar vice ordförandepost i annan kommitté eller nämnd.
+    
+        \subsubsection{Sammansättning}
+    		\pgf Studienämnden består av följande poster:
+    			\begin{itemize}
+    				\item Ordförande
+    				\item Vice ordförande
+    				\item Kassör
+    				\item Sekreterare
+    				\item Kandidatansvarig
+    				\item Masteransvarig
+    				\item Årskursrepresentant åk. 1
+    				\item Veckobladerist
+    				\item Matansvarig.
+    			\end{itemize}
+                Där ordförande, vice ordförande och kassör anses vara förtroendevalda.
+    
+    	\subsubsection{Verksamhet}
+            \pgf Studienämnden har en verksamhet som går från 1 juli till 30 juni.
+    
+        \subsubsection{Åligganden}
+    		\pgf Det åligger studienämnden:
+    			\begin{description}
+    				\item[att]  sammanträda minst tre gånger per läsperiod.
+    				\item[att] ansvara för utvecklandet av utbildningsbevakningen på Fysikteknologsektionen.
+    				\item[att] inför Fysikteknologsektionen svara för att F- och TM-teknologernas intressen i studiefrågor och studiemiljö bevakas på ett tillfredsställande sätt.
+    				\item[att] tillse att det finns representant från studienämnden i programråden för F och TM.
+    				\item[att] på verksamhetsårets första sektionsmöte presentera en verksamhetsplan för det kommande läsåret.   
+    				\item[att] följa åligganden enligt arbetsbeskrivning.
+    			\end{description}
+    
+    		\pgf Det åligger studienämndens ordförande:
+    			\begin{description}
+    				\item[att] tillse att studienämndens ålägganden utförs.
+    				\item[att] leda studienämndens verksamhet.
+    				\item[att] kalla studienämnden till sammanträde.
+    				\item[att] tillsammans med kassören ansvara för studienämndens ekonomi.
+    				\item[att] representera studienämnden i sektionsstyrelsen.
+    				\item[att] i studie- och studiemiljöfrågor representera Fysikteknologsektionen och föra dess talan.
+    				\item[att] representera F och TM i Utbildningsutskottet, UU.
+    				\item[att] inför Fysikteknologsektionen svara för att F- och TM-teknologernas intressen i studiefrågor och studiemiljö bevakas på ett tillfredsställande sätt.
+    			\end{description}
+    
+    		\pgf Det åligger studienämndens vice ordförande:
+    			\begin{description}
+    				\item[att] assistera ordföranden i dennes åligganden.
+    				\item[att] ersätta ordföranden när denne inte är närvarande.
+    				\item[att] ansvara för studiesociala evenemang.
+    				\item[att] vara studienämndens suppleant i sektionsstyrelsen och Utbildningsutskottet.
+    			\end{description}
+    
+    		\pgf Det åligger studienämndens kassör:
+    			\begin{description}
+    				\item[att] sköta och ansvara för studienämndens ekonomi tillsammans med ordförande.
+    				\item[att] kontinuerligt föra en granskningsbar redovisning gällande studienämnden:s ekonomi.
+    				\item[att] mot revisorerna och sektionskassören kontinuerligt redovisa den ekonomiska situationen. 
+    			\end{description}
+    
+    		\pgf Det åligger studienämndens sekreterare:
+    			\begin{description}
+     				\item[att] tillse att protokoll förs på studienämndens möten.
+    				\item[att] anslå nämndens protokoll enligt stadgarna.
+    			\end{description}
+    
+    		\pgf Det åligger studienämndens medlemmar:
+    			\begin{description}
+    				\item[att] vara ordföranden behjälplig.
+    			\end{description}
 
-\section{Medlemmar}
 
-\subsection{Skyldigheter}
-\begin{enumerate}[\thesubsection .1]
-\item Medlem som går i första årskursen på programmet Teknisk fysik
-     eller Teknisk matematik skall städa sektionslokalen.
- 
+\tempsection{Kommittéer}
+	\subsection{Villkor för kommittéledamöter}
+		\pgf En person kan ej inneha två ledamotsposter i samma kommitté.
+		\pgf Ekonomiskt ansvarig i kommitté skall vara myndig.
+		\pgf En person kan ej inneha ordförandepost i en kommitté eller nämnd samtidigt som denne innehar vice ordförandepost i annan kommitté eller nämnd.
 
-\end{enumerate}
+	\subsection{Förteckning}
+		\pgf Fysikteknologsektionens sektionskommittéer är:
+			\begin{itemize}
+				\item Fysikteknologsektionens arbetsmarknadsgrupp, FARM.
+				\item Fysikteknologsektionens mottagningskommitté, FnollK.
+				\item Fysikteknologsektionens sexmästeri, F6.
+				\item Fysikteknologsektionens PR-förening och rustmästeri, Djungelpatrullen.
+				\item Fysikteknologsektionens focumateri, Focumateriet. 
+			\end{itemize}
 
-\subsection{Ickeoffentliga dokument}
+	\subsection{Åligganden}
+		\pgf Det åligger varje sektionskommitté:
+			\begin{description}
+				\item[att] på det ordinarie sektionsmöte som följer på det att kommittens verksamhetsår har börjat presentera en verksamhetsplan för det kommande verksamhetsåret.     
+				\item[att] följa åligganden enligt arbetsbeskrivning. 
+			\end{description}
 
-\begin{enumerate}[\thesubsection .1]
+		\pgf Det åligger kassören i varje sektionskommitté:
+			\begin{description}
+				\item[att]  mot revisorerna och sektionskassören kontinuerligt redovisa för den ekonomiska situationen.
+			\end{description}
 
-  \item Följande dokument har medlem inte rätt att ta del av, såvida det inte behövs för sektionens verksamhet:
-  	\begin{itemize}
-  		\item[-] Incidenthanteringsprotokoll
-	 	\item[-] Dokument innehållande personuppgifter
-  	\end{itemize}
+	\subsection{FARM}
+		\pgf FARM består av följande poster:
+			\begin{itemize}
+				\item Ordförande
+ 				\item Vice ordförande
+				\item Kassör
+				\item 0--5 ledamöter
+			\end{itemize}
+            där ordförande, vice ordförande och kassör är förtroendeposter.
 
-\end{enumerate}
+		\pgf Farm har en verksamhet som går från 1 januari till 31 december.
 
-\subsection{Hedersmedlemmar}
+		\pgf Vid räkenskapsårets slut skall tillgångar över 0,659 basbelopp tillfalla sektionen. Visst utrymme för representation får förekomma.
 
-\subsubsection{Förteckning}
+		\pgf Det åligger FARM:
+			\begin{description}
+				\item[att] arrangera studiebesök och branschkvällar.   
+				\item[att] informera företag om programmen Teknisk fysik samt Teknisk matematik, och deras fördelar.
+			\end{description}
 
-\begin{enumerate}[\thesubsection .1]
+		\pgf Det åligger FARM:s ordförande:
+			\begin{description}
+				\item[att] tillse att kommitteens åligganden utförs.
+				\item[att] leda FARM:s arbete.
+				\item[att] tillsammans med kassören ansvara för FARM:s ekonomi.
+				\item[att] fungera som kontaktlänk mellan FARM och övriga kommittéer samt företräda FARM i sektionsstyrelsen.
+			\end{description}
 
-  \item Fysikteknologsektionens hedersmedlemmar är:
-    \begin{itemize}
-      \item Valen Åke som strandade i Träslövsläge.
-      \item Schrödingers katt, kanske.\footnote{Under sektionsmötet 2013--05--07 genomfördes en omröstning om nämnda katts medlemskap. Omröstningen skedde enligt mötets önskan genom sluten votering, och rösterna placerades i ett kuvert, som sedan förseglades. Schrödingers katt är därmed \textit{kanske} hedersmedlem.}
-    \end{itemize}
+		\pgf Det åligger FARM:s vice ordförande:
+			\begin{description}
+				\item[att] vara kommitténs suppleant i sektionsstyrelsen.
+				\item[att] hjälpa FARM-ordföranden i dennes uppgifter så att de utförs på bästa sätt.
+			\end{description}
 
-\end{enumerate}
+		\pgf Det åligger FARM:s kassör:
+			\begin{description}
+				\item[att] tillsammans med ordförande ansvara för och sköta FARM:s ekonomi.
+				\item[att] kontinuerligt föra en granskningsbar redovisning gällande FARM:s ekonomi.
+			\end{description}
 
-\newpage
+		\pgf Det åligger FARM:s övriga medlemmar:
+			\begin{description}
+				\item[att] hjälpa FARM- ordföranden i dennes uppgifter så att de utförs på bästa sätt.
+			\end{description}
 
-\section{Inspektor}
+	\subsection{FnollK}
+		\pgf FnollK består av följande poster:
+			\begin{itemize}
+				\item Ordförande
+				\item Vice ordförande
+				\item Kassör
+				\item 0--4 ledamöter
+			\end{itemize}
+            där ordförande, vice ordförande och  kassör förtroendeposter.
 
-\section{Organisation och ansvar}
-%%Kapitel 3: Organisation
+		\pgf FnollK har en verksamhet som går från 1 januari till 31 december.
+
+		\pgf Verksamheten drivs på ideell basis, d.v.s. den ska gå jämnt upp. Dock skall det finnas ett visst utrymme för ersättning i form av representation. Eventuellt överskott tillfaller sektionen. 
+
+		\pgf Det åligger FnollK:
+			\begin{description}
+				\item[att] genomföra en värdig mottagning i enlighet med kårens och sektionens intentioner.
+				\item[att] arrangera aktiviteter för F- och TM-nollan som syftar till att införliva Nollan i livet som F- respektive TM-teknolog både vad gäller studier och det studiesociala livet.
+				\item[att] under ledning av FnollKs  ordförande planera och leda dessa aktiviteter i samråd med berörda organ.
+				\item[att] tillse att valen Åke bär nollbricka om gamble så tycker.
+				\item[att] kanske tillse att Schrödingers katt kanske bär nollbricka.
+			\end{description}
+
+		\pgf Det åligger FnollK:s ordförande:
+			\begin{description}
+				\item[att] tillse att kommitteens åligganden utförs.
+				\item[att] leda och ansvara för FnollKs arbete.
+				\item[att] fungera som kontaktlänk mellan FnollK och övriga kommittéer samt företräda FnollK i sektionsstyrelsen.
+				\item[att] tillsammans med FnollKs kassör ansvara för FnollKs ekonomi.
+				\item[att] representera Fysikteknologsektionen i Chalmers Studentkårs samarbetsorgan för mottagningen, MoS.
+			\end{description}
+
+		\pgf Det åligger FnollK:s vice ordförande:
+			\begin{description}
+				\item[att] vara kommitténs suppleant i sektionsstyrelsen
+				\item[att] vid ordförandens frånvaro överta dennes åligganden
+			\end{description}
+
+		\pgf Det åligger FnollK:s kassör:
+			\begin{description}
+				\item[att] sköta och tillsammans med FnollKs ordförande ansvara för FnollKs ekonomi.
+				\item[att] kontinuerligt föra en granskningsbar redovisning gällande FnollKs  ekonomi.
+			\end{description}
+
+		\pgf Det åligger FnollK:s övriga ledamöter:
+			\begin{description}
+				\item[att] hjälpa FnollK-ordföranden i dennes uppgifter så att de utförs på bästa sätt.
+			\end{description}
+
+	\subsection{F6}
+		\pgf F6 består av följande poster:
+			\begin{itemize}
+				\item Ordförande, Sexmästare
+				\item Vice ordförande, Sexreterare
+				\item Kassör
+				\item 0--6 ledamöter
+			\end{itemize}
+            där ordförande, vice ordförande och kassör är förtroendeposter.
+
+		\pgf F6 har en verksamhet som går från 1 juli till 30 juni.
+
+		\pgf Verksamheten skall drivas i icke vinstdrivande syfte. Vid räkenskapsårets slut skall kommitténs tillgångar upp till 0,659 basbelopp övergå till nästkommande års kommitté. Tillgångar därutöver tillfaller sektionen. Visst utrymme för representation får förekomma.
+
+		\pgf Det åligger F6:
+			\begin{description}
+				\item[att] minst en gång per läsperiod anordna gasque.
+				\item[att] ansvara för kalas- och tentamensfestlighetsverksamhet på sektionen.
+				\item[att] vara ett komplement till FnollK under mottagningen.
+			\end{description}
+
+		\pgf Det åligger F6:s ordförande, Sexmästaren:
+			\begin{description}
+				\item[att] tillse att kommitténs åligganden utförs.
+				\item[att] leda F6:s arbete.
+				\item[att] fungera som kontaktlänk mellan F6 och övriga kommittéer samt företräda F6 i sektionsstyrelsen.
+				\item[att] att vara Fysiktteknologsektionens representant i Gasquerådet, om F6 beslutar att vara medlemmar i Gasquerådet.
+				\item[att] tillsammans med kassören ansvara för F6:s ekonomi.
+			\end{description}
+
+		\pgf Det åligger F6:s vice ordförande, Sexreteraren:
+			\begin{description}
+				\item[att] vid sexmästarens frånvaro utföra dennes uppgifter.
+				\item[att] vara kommitténs suppleant i sektionsstyrelsen
+			\end{description}
+
+		\pgf Det åligger F6:s kassör:
+			\begin{description}
+				\item[att] tillsammans med Sexmästaren ansvara för F6:s ekonomi.
+				\item[att] kontinuerligt föra en granskningsbar redovisning gällande F6:s ekonomi.
+			\end{description}
+
+		\pgf Det åligger F6:s övriga medlemmar:
+			\begin{description}
+				\item[att] hjälpa de förtroendevalda i F6:s verksamhet.
+			\end{description}
+
+	\subsection{Djungelpatrullen}
+		\pgf Djungelpatrullens poster utgörs av:
+			\begin{itemize}
+				\item Ordförande, Överste
+				\item Vice ordförande, Rustmästare
+				\item Kassör, Skattmästare
+				\item 0--7 adjutanter
+			\end{itemize}
+            där Ordförande, Vice ordförande och kassör är förtroendeposter
+
+		\pgf Djungelpatrullen har en verksamhet som går från 1 juli till 30 juni.
+
+		\pgf Verksamheten skall drivas i icke vinstdrivande syfte. Vid räkenskapsårets slut skall kommitténs tillgångar upp till 0,659 basbelopp övergå till nästkommande års kommitté. Tillgångar därutöver tillfaller sektionen. Visst utrymme för representation får förekomma.
+
+		\pgf Det åligger Djungelpatrullen:
+			\begin{description}
+				\item[att] tillse att sektionshelgonet vördas på ett hedersamt sätt av alla Fysikteknologsektionens medlemmar.   
+				\item[att] ansvara för att det ordnas arrangemang för medlemmarna på Fysikteknologsektionen. Dessa skall hållas i en anda som ökar sammanhållningen på Fysikteknologsektionen och ökar kontakten över årskursgränserna.
+				\item[att] vara ett komplement till FnollK under mottagningen. 
+				\item[att] sköta det löpande underhållet av Fysikteknologsektionens lokaler och egendom.
+				\item[att] vårda sektionens traditioner.
+			\end{description}
+
+		\pgf Det åligger Djungelpatrullens ordförande, Översten:
+			\begin{description}
+				\item[att] tillse att kommitténs åligganden utförs. 
+				\item[att] leda Djungelpatrullens arbete.
+				\item[att] fungera som kontaktlänk mellan Djungelpatrullen och övriga kommittéer samt företräda Djungelpatrullen i sektionsstyrelsen.
+				\item[att] tillsammans med Skattmästaren ansvara för Djungelpatrullens ekonomi.
+			\end{description}
+
+		\pgf Det åligger Djungelpatrullens vice ordförande, Rustmästaren:
+			\begin{description}
+				\item[att] i överstens frånvaro leda Djungelpatrullens arbete.
+				\item[att] leda renoverings- och underhållsarbeten i sektionens lokaler.
+				\item[att] ansvara för uthyrning av Focus inventarier.
+				\item[att] vara kommitténs suppleant i sektionsstyrelsen.
+			\end{description}
+
+		\pgf Det åligger Djungelpatrullens kassör, Skattmästaren:
+			\begin{description}
+				\item[att] tillsammans med ordförande ansvara för och sköta Djungelpatrullens ekonomi.
+				\item[att] kontinuerligt föra en granskningsbar redovisning gällande Djungelpatrullens ekonomi.
+			\end{description}
+
+		\pgf Det åligger Djungelpatrullens adjutanter:
+			\begin{description}
+				\item[att] hjälpa de förtroendevalda i DP:s verksamhet.
+			\end{description}
+
+	\subsection{Focumateriet}
+		\pgf Focumateriets utgörs av följande poster:
+			\begin{itemize}
+				\item Ordförande, kapten
+				\item Vice ordförande, automatpirat
+				\item Kassör, kistväktare
+				\item 0--5 övriga ledamöter
+			\end{itemize}
+            där ordförande, vice ordförande och kassör är förtroendeposter.
+
+		\pgf Focumateriet har en verksamhet som går från 1 juli till 30 juni.
+
+		\pgf Verksamheten skall drivas i icke vinstdrivande syfte. Vid räkenskapsårets slut skall kommitténs tillgångar upp till 0,659 basbelopp övergå till nästkommande års kommitté. Tillgångar därutöver tillfaller sektionen. Visst utrymme för representation får förekomma.
+
+		\pgf Det åligger Focumateriet:
+			\begin{description}
+				\item[att] handha Focumaten, samt, efter sektionsstyrelsens bestämmande, av sektionen ägda automater samt av sektionen ägd elektronisk utrustning.
+			\end{description}
+
+		\pgf Det åligger Focumateriets ordförande:
+			\begin{description}
+				\item[att] leda Focumateriets arbete.
+				\item[att] tillse att kommitténs åligganden efterföljs.
+				\item[att] tillsammans med kassören ansvara för kommitténs ekonomi.
+			\end{description}
+
+		\pgf Det åligger Focumateriets vice ordförande:
+			\begin{description}
+				\item[att] vara kommitténs suppleant i sektionsstyrelsen
+				\item[att] vid ordförandens frånvaro överta dennes åligganden
+			\end{description}
+
+		\pgf Det åligger Focumateriets kassör:
+			\begin{description}
+				\item[att] tillsammans med orföranden ansvara för och sköta Focumateriets ekonomi.
+				\item[att] kontinuerligt föra en granskningsbar redovisning gällande focumateriets ekonomi.
+			\end{description}
+
+		\pgf Det åligger Focumateriets övriga ledamöter:
+			\begin{description}
+				\item[att] hjälpa Focumateriordföranden att efterfölja focumateriets åligganden.
+			\end{description}
+
+\tempsection{Sektionsföreningar}
+	\subsection{Villkor för sektionsföreningsmedlemmar}
+		\pgf En person kan ej inneha två ledamotsposter i samma sektionsförening.
+		\pgf Ekonomisk ansvarig ska vara myndig.
+
+	\subsection{Företeckning}
+
+		\pgf Fysikteknologsektionens Sektionsföreningar är:
+			\begin{itemize}
+				\item Fabiola
+				\item Fysikteknologsektionens Idrottsförening, FIF
+				\item Foton.
+			\end{itemize}
+
+	\subsection{Åligganden}
+		\pgf Det åligger varje sektionsförening
+			\begin{description}
+				\item[att] följa åligganden enligt arbetsbeskrivning.
+			\end{description}
+
+            \newcommand{\att}{\textbf{att}}
 
 
-\newpage
+		\pgf Det åligger ekonomisk ansvarig:
+			\begin{description}
+				\item[att] mot revisorerna och sektionskassören kontinuerligt redovisa för den ekonomiska situationen.
+			\end{description}
 
-\section{Sektionsmötet}
+	\subsection{Fabiola}
+		\pgf Fabiola består av 1-10 ledamöter varav en väljs internt till ordförande. Fabiola innehar inga förtroendeposter.
+		\pgf Det åligger Fabiola:
+			\begin{description}
+				\item[att] arrangera evenemang riktade mot kvinnor på sektionen.
+			\end{description}
 
+	\subsection{Fysikteknologsektionens Idrottsförening, FIF}
+		\pgf FIF består av följande poster:
+			\begin{itemize}
+				\item Ordförande.
+				\item Kassör.
+				\item 0--7 ledamöter.
+			\end{itemize}
+            Där ordförande och kassör är förtroendeposter.
 
-\subsection{Kallelse}
+		\pgf FIF har en verksamhet som går från 1 april till 31 mars.
 
-\begin{enumerate}[\thesubsection .1]
+		\pgf Verksamheten skall drivas i icke vinstdrivande syfte. Vid räkenskapsårets slut skall föreningens tillgångar upp till 0,659 basbelopp övergå till nästkommande års förening. Tillgångar därutöver tillfaller sektionen. Visst utrymme för representation får förekomma.
 
-\item Kallelse till sektionsmöte  skall innehålla uppgifter om datum, tid och plats, samt preliminär föredragningslista. Denna skall anslås via sektionens officiella kommunikationskanaler.
+		\pgf Det åligger FIF:
+			\begin{description}
+				\item[att] främja idrottskulturen på sektionen genom att arrangera regelbundna träningar.
+				\item[att] handha idrottsmaterial samt sköta utlåning av denna till sektionsmedlemmar.
+			\end{description}
 
-\item Kallelse till sektionsmöte skall tillsändas sektionsmedlemmar, revisorer, inspektor och kårstyrelsen.
+		\pgf Det åligger FIF:s ordförande:
+			\begin{description}
+  				\item[att] tillse att FIF:s åligganden utförs.
+  				\item[att] leda FIF:s arbete.
+  				\item[att] fungera som kontaktlänk mellan FIF och andra föreningar på sektionen samt tillse att kontakt med andra sektioners idrottsföreningar uppehålls.
+  				\item[att] tillsammans med kassören ansvara för FIF:s ekonomi.
+  				\item[att] tillsammans med kassören presentera ett bokslut vid det första sektionsmötet efter verksamhetsårets slut.
+			\end{description}
 
-\end{enumerate}
+		\pgf Det åligger FIF:s kassör:
+			\begin{description}
+				\item[att] tillsammans med ordföranden ansvara för FIF:s ekonomi.
+				\item[att] kontinuerligt föra en granskningsbar redovisning gällande FIF:s ekonomi.
+				\item[att] tillsammans med ordföranden presentera ett bokslut vid det första sektionsmötet efter verksamhetsårets slut.
+			\end{description}
 
-\subsection{Slutgiltig föredragningslista}
-\begin{enumerate}[\thesubsection .1]
+		\pgf Det åligger FIF:s övriga ledamöter:
+			\begin{description}
+				\item[att] hjälpa FIF:s ordförande att efterfölja FIF:s åligganden.
+			\end{description}
 
-\item Slutgiltig föredragningslista skall bestå av slutgiltig dagordning, inkomna handlingar såsom revisionsberättelser, motioner, propositioner, rapporter samt nomineringar. Denna skall anslås via sektionens officiella kommunikationskanaler.
+	\subsection{Foton}
+		\pgf Foton består av 1-6 ledamöter varav en väljs internt till ordförande. Foton innehar inga förtroendeposter.
+		\pgf Det åligger Foton:
+			\begin{description}
+				\item[att] löpande dokumentera sektionens arrangemang.
+				\item[att] i samband med arbetsmässor arrangera porträttfotografering.
+				\item[att] stödja sektionens kommittéer och nämnder vid behov av filmning eller fotografering.
+			\end{description}
 
-\item Slutgiltig föredragningslista till sektionsmöte skall tillsändas sektionsmedlemmar, revisorer, inspektor samt kårstyrelsen.
+\tempsection{Funktionärer}
+	\subsection{Förteckning}
+		\pgf Fysikteknologsektionens sektionsfunktionärer är:
+			\begin{itemize}
+				\item Fysikteknologsektionens informationsskrift, Finform
+				\item Sångförmännen
+				\item Revisorer
+				\item Fysikteknologsektionens skyddshelgon Dragos
+				\item Fanfareriet
+				\item Bilnissar
+				\item Blodgruppen
+				\item Kräldjursvårdare
+				\item Dumvästinnehavare
+				\item Bakisclubben (BC)
+				\item Fysikteknologsektionens webbgrupp, Spidera
+				\item Sektionsnörd
+				\item Balnågontin.
+				\item Game boy
+				\item Piff och Puff
+				\item JämF
+				\item Mastermottagningsansvarig
+				\item Frisörer.
+			\end{itemize}
 
-\end{enumerate}
+	\subsection{Åligganden}
+		\pgf Det åligger varje sektionsfunktionär:
+			\begin{description}
+				\item[att] följa upprättad arbetsordning.
+			\end{description}
 
+	\subsection{Finform}
+		\pgf Finform är Fysikteknologsektionens informationsskrift och skall på ett lättillgängligt sätt presentera intressanta fakta, skämt och skvaller. 
 
-\subsection{Sammanträdesordning}
+		\pgf Finforms redaktion består av chefredaktör tillika ansvarig utgivare, kassör samt 2--8 redaktörer.
 
-\begin{enumerate}[\thesubsection .1]
+		\pgf Ansvarig utgivare för Finform tillträder efter inregistrering enligt gällande lag.
 
-  \item Sektionsmötet skall på sitt första möte varje verksamhetsår anta en mötesordning på förslag från föregående verksamhetsårs talman.
+		\pgf Det åligger Finform-redaktionen:
+			\begin{description}
+				\item[att] producera minst 4 nummer av Finform per läsår, med fördelningen 2 på hösten och 2 på våren.
+				\item[att] ansvara för tryckning och distribution.
+			\end{description}
 
-\end{enumerate}
+		\pgf Det åligger Finforms chefredaktör:
+			\begin{description}
+				\item[att] vara ansvarig utgivare.
+				\item[att] tillse att Finforms åliggande utförs.
+				\item[att] leda Finforms arbete.
+			\end{description}
 
-\subsection{Åligganden}
+		\pgf Det åligger Finforms kassör:
+			\begin{description}
+				\item[att] tillsammans med chefredaktören ansvara för Finforms ekonomi.
+				\item[att] ansvara för att Finforms ekonomiska anslag används inom av sektionsstyrelsen fastställd ram.
+			\end{description}
 
-\begin{enumerate}[\thesubsection .1]
+		\pgf Det åligger Finforms ansvariga utgivare:
+			\begin{description}
+				\item[att] kontrollera Finform så att Finform inte agerar olagligt, kränkande eller på annat sätt olämpligt.
+				\item[att] Finform agerar på ett lämpligt sätt för att vara Fysikteknologsektionens officiella informationsskrift.
+			\end{description}
 
-  \item Det åligger sektionsmötet att innan utgången av läsperiod 1
-  utöver de i stadgarna definierade åliggandena välja:
-    \begin{itemize}
-      \item Årskursrepresentant till studienämnden.
-        \item Balnågonting.
-    \end{itemize}
+	\subsection{Fysikteknologsektionens Sångförmän}
+        \pgf Sångförmännens syfte är att förvalta och bevara sektionens sångtraditioner.
 
-  \item Det åligger sektionsmötet att innan utgången av läsperiod 2
-    utöver de i stadgarna definierade åliggandena välja:
-    \begin{itemize}
-      \item Förtroendeposter i FARM.
-      \item Ledamöter i FARM
-      \item Förtroendeposter i FnollK.
-      \item Ledamöter i Fnollk.
+		\pgf Sångförmännen är till antalet 0--6.
 
-    \end{itemize}
+	\subsection{Fysikteknologsektionens skyddshelgon, Dragos}
+		\pgf Dragos är sektionens högste beskyddare, och utövar Fanfareriets högsta befäl.
 
-  \item Det åligger sektionsmötet att innan utgången av läsperiod 3
-    utöver de i stadgarna definierade åliggandena välja:
-    \begin{itemize}
-      \item Bilnissar.
-      \item Blodgrupp.
-      \item Fanfareri.
-      \item Finform.
-      \item FIF.
-      \item Kräldjursvårdare.
-      \item Sektionsnörd.
-      \item Spidera.
-      \item Sångförmän.
-      \item Bakisclubben (BC).
-      \item Game Boy.
-      \item Piff och Puff.
-      \item Foton.
-      \item Fabiola.
-    \end{itemize}
+	\subsection{Fysikteknologsektionens Fanfareri}
+        \pgf Fanfareriets syfte är att ta hand om sektionens fanor och flaggor.
 
-  \item Det åligger sektionsmötet att innan utgången av  läsperiod 4
-    utöver de i stadgarna definierade åliggandena välja:
-    \begin{itemize}
-      \item Dragos.
-      \item Sektionsstyrelse.
-      \item Valberedning.
-      \item Studienämnden, förutom årskursrepresentant.
-      \item Förtroendeposter i Djungelpatrullen.
-      \item Adjutanter i Djungelpatrullen.
-      \item Förtroendeposter i F6.
-      \item Ledamöter i F6.
-      \item Förtroendeposter i Focumateriet.
-      \item Ledamöter i Focumateriet. 
-       \item Revisorer.
-       \item Talmanspresidiet.
-    \end{itemize}
+		\pgf Fanfareriet består av en flaggmarskalk och 1-2 fanbärare.
 
-\end{enumerate}
+	\subsection{Fysikteknologsektionens Bilnissar}
+		\pgf Bilnissarna består av en ekonomisk bilnisse samt en mekanisk bilnisse.
 
-\subsection{Talmanspresidiet}
+		\pgf Det åligger Bilnissarna:
+			\begin{description}
+				\item[att] ansvara för de motorfordon som sektionsstyrelsen beslutat om, dock endast sådana som sektionen helt eller delvis förfogar över.
+				\item[att] ansvara för uthyrning av dessa fordon, enligt taxa fastställd av sektionsstyrelsen.
+			\end{description}
 
-\begin{itemize}
-    \item Talmanspresidiet består av talman, vice talman och sekreterare. 
-    \item Det åligger talman att skicka ut kallelse och slutgiltiga handlingar inför sektionsmöten, lägga förslag på en mötesordning inför verksamhetsåret första sektionsmötet samt leda sektionsmöten. 
-    \item Det åligger vice talman att stödja talmannen i dennes arbete.
-    \item Det åligger sekreterare att föra protokoll under sektionsmöten samt tillse att protokollet justeras och anslås i tid. 
-    \item Vid talmannens frånvaro övertar vice talman dennes åliggande och befogenheter. 
-    \item Under sektionsmöten skall talmanspresidiet tilltalas Herr/Fru talman/ vice talman/sekreterare. 
-    \item Talmanspresidet ska i sitt arbete agera opartiskt. 
-    \item Vid vakant post i talmanspresidiet väljer sektionsmötet in en person för det aktuella sektionsmötet på förslag av styrelsen. Personen får vara medlem i sektionsstyrelsen; förutom när det gäller talman samt vice talman när denne skall överta talmannens arbete. 
-    \item Datum för ordinarie sektionsmöten ska fastställas av talmanspresidet på ett styrelsemöte i samråd med styrelsen.
-\end{itemize}
+		\pgf Det åligger ekonomisk bilnisse:
+			\begin{description}
+				\item[att] vara sektionskassören behjälplig vid ekonomiska ärenden rörande bilnisse.
+			\end{description}
 
-\newpage
+		\pgf Det åligger mekanisk bilnisse:
+			\begin{description}
+				\item[att] tillse att ovannämnda fordon underhålls och repareras på ett tillfredsställande sätt.
+			\end{description}
 
-\section{Valberedning och personval}
+	\subsection{Fysikteknologsektionens Blodgrupp}
+        \pgf Blodgruppens syfte är att uppmuntra sektionsmedlemmarna till att lämna blod
 
-\subsection{Åligganden}
+		\pgf Blodgruppen består av en ansvarig och 1-4 ledamöter.
 
-\begin{enumerate}[\thesubsection .1]
+	\subsection{Fysikteknologsektionens Kräldjursvårdare}
+        \pgf Kräldjursvårdarens syfte är att ta hand om sektionens slang, Tilde.
 
-  \item Det åligger valberedningen att ansvara för nomineringen till
-  följande poster:
-    \begin{itemize}
-      \item Samtliga poster i sektionsstyrelsen.
-      \item Samtliga förtroendeposter.
-      \item Övriga poster i SNF.
-      \item Övriga ledamöter i Djungelpatrullen.
-      \item Övriga ledamöter i F6.
-      \item Övriga ledamöter i Focumateriet.
-        \item Övriga ledamöter i FARM.
-          \item Övriga ledamöter i FnollK. 
-        
-    \end{itemize}
-  \item Det åligger valberedningen att anslå nomineringar till poster i sektionsstyrelsen, förtroendeposter
-och övriga medlemmar i sektionskommittéer senast 7 veckodagar före sektionsmöte då relevant inval
-äger rum. Nomineringarna skall anslås via någon av sektionens officiella informationskanaler.
+		\pgf Det ska finnas en kräldjursvårdare på sektionen.
 
-\item  Vid varje sektionsmöte, där det sker inval av poster där valberedningen ansvarar för nomineringar, skall valberedningen vara representerad.
+		\pgf Sektionen skall inte ha kräldjur på Focus.
 
-\end{enumerate}
+	\subsection{Fysikteknologsektionens Dumvästinnehavare}
 
-\subsection{Val av förtroendeposter}
-	\begin{enumerate}[\thesubsection .1]
-	\item Förtroendeposter väljs av sektionsmötet.
-	\end{enumerate}
+		\pgf Det ska väljas en Dumvästinnehavare på varje sektionsmöte.
 
-\subsection{Val av övriga medlemmar i kommittéer}
-	\begin{enumerate}[\thesubsection .1]
-	
-	\item Övriga medlemmar i kommitté nomineras i grupp av valberedningen. Sektionsstyrelsen
-	behandlar godkännande eller avslag av valberedningens gruppnominering på ett styrelsemöte. Detta
-	möte skall äga rum tidigast en dag efter att valberedningen anslagit nomineringar och senast samma
-	dag som sektionsmötet för inval av förtroendeposter.
-	
-	\item Vid godkännande av gruppnomineringen betraktas gruppen som preliminärt fastslagen.
-	Besked om preliminär fastslagning anslås med nomineringarna omedelbart efter styrelsemötet.
-	
-	\item Om sektionsmötet sedan väljer in alla förtroendeposter i berörd kommitté i enlighet med
-	valberedningens nominering fastslås gruppen omedelbart och de övriga medlemmarna är att betrakta
-	som invalda.
-	
-	\item Om sektionsmötet inte väljer in alla förtroendeposter i berörd kommitté i enlighet med
-	valberedningens nominering förkastas den preliminärt fastslagna gruppen. Därefter skall val av
-	övriga medlemmar istället företas på sektionsmöte.
-	
-	\item Vid avslag av gruppnomineringen företas val av övriga medlemmar på sektionsmöte. Eventuellt
-	avslag skall grundas i en bedömning av valberedningens arbete eller i uppenbara oriktigheter
-	som framkommit till sektionsstyrelsen. Besked om avslag och motivering till det skall anslås med
-	nomineringarna omedelbart efter styrelsemöte.
+		\pgf Reglemente angående Dumvästens utdelande:
 
-	\end{enumerate}
+		\pgf Den, som med avsikt att erhålla Dumvästen utfört dumheter bör ej vara kvalificerad till denna.
+		
+		\pgf Kriminella handlingar är ej kvalificerade till Dumvästen, såvida inte sektionsmötet anser detta.
+		
+		\pgf Om ej tillräckligt kvalificerad dumhet nomineras, kvarstår Dumvästen hos innehavaren för tillfället.
+		
+		\pgf Förteckning över Dumvästinnehavare genom tiderna tillhandahålls av sektionsstyrelsen.
 
-\subsection{Val av övriga medlemmar i nämnder}
-	\begin{enumerate}[\thesubsection .1]
-	
-	    \item Övriga poster i nämnder väljs av sektionsmötet. 
+	\subsection{Bakisclubben (BC)}
+        \pgf Bakisclubben (BC) ska främja bakverksamheten på sektionen.
+
+		\pgf BC består av 0--6 bakisar.
+
+		\pgf Det åligger Bakisclubben:
+			\begin{description}
+				\item[att] tillse att kanelbullar bakas inför samt att dessa kanelbullar är tillgängliga på Focus för alla sektionsmedlemmar att avnjuta i samband med Kanelbullens dag.
+			\end{description}
+
+	\subsection{Spidera}
+		\pgf Spidera består av en nätmästare,informationsansvarig från sektionsstyrelsen samt 1--9 nätmakare. Sektionsmötet väljer 2--10 teknologer till Spidera, som i samråd med sektionsstyrelsen utser en nätmästare.
+
+		\pgf Det åligger Spidera:
+			\begin{description}
+				\item[att] administrera och utveckla Fysikteknologsektionens internetportal.
+			\end{description}
+
+		\pgf Det åligger Spideras nätmästare:
+			\begin{description}
+				\item[att] tillse att ansvarig för av Spidera disponerad hårdvara är medlem i Spidera.
+				\item[att] fungera som länk mellan sektionsstyrelsen och Spidera.
+				\item[att] kalla till möte med Spidera.
+			\end{description}
+
+	\subsection{Fysikteknologsektionens Sektionsnörd}
+        \pgf Sektionsnördens syfte är att ta hand om allting som rör sektionens prenumeration av Fantomen
+
+		\pgf Det ska väljas en sektionsnörd.
+
+	\subsection{Fysikteknologsektionens Balnågonting}
+        \pgf Balnågontings syfte är att anordna bal, middag samt kringaktiviteter som tillhör balen
+
+		\pgf Balnågonting har 0-5 medlemmar samt en representant vardera från FnollK, F6 och Djungelpatrullen.
+
+	\subsection{Game Boy}
+        \pgf Game Boys syfte är att ta hand om de sällskapsspel som finns på Focus, samt främja brädspelsverksamheten på Fysikteknologsektionen.
+
+		\pgf Game Boy består av 0--6 Game Boys.
+
+	\subsection{Piff och Puff}
+        \pgf Piff och Puff är sektionens aktivitetsgrupp, och syftar till att hjälpa sektionen engagera och underhålla fler sektionsmedlemmar, samt hjälpa sektionsmedlemmar med vägledning och tips om hur aktiviteter för sektionsmedlemmar kan genomföras.
+
+		\pgf Piff och Puff består av 0--4 Piffar.
+		
+	\subsection{JämF}
+	    \pgf JämF är sektionens jämlikhetsråd, och syftar till att arbeta för en mer jämlik sektion där alla känner sig välkomna.
 	    
-	\end{enumerate}
-
-
-\newpage
-
-\section{Sektionsstyrelsen}
-
-\subsection{Sammansättning}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item sektionsstyrelsen består av följande förtroendeposter:
-    \begin{itemize}
-      \item Sektionsordförande.
-      \item Vice sektionsordförande.
-      \item Sektionskassör.
-      \item Sekreterare.
-      \item Skyddsombud.
-      \item Informationsansvarig.
-      \item Ordförande i SNF.
-      \item Ordförande i FnollK.
-      \item Ordförande i F6.
-      \item Ordförande i FARM.
-      \item Ordförande i FOC.
-      \item Ordförande i Djungelpatrullen.
-    \end{itemize}
-
-\end{enumerate}
-
-\begin{enumerate}[\thesubsection .2]
-\item Villkor för ledamöter i sektionsstyrelsen:
-
-\begin{itemize}
-\item En kan ej inneha fler än en position i sektionsstyrelsen.
-\item Revisor, talmanspresidiet eller ledamot av valberedningen kan ej vara medlem av sektionsstyrelsen.
-\item Ledamot av sektionsstyrelsen kan ej inneha annan förtroendepost.
-\end{itemize}
-
-\end{enumerate}
-
-\begin{enumerate}[\thesubsection .3]
-\item Suppleanter
-\begin{itemize}
-\item Vice ordförande i respektive kommitté samt studienämnden är suppleant i sektionsstyrelsen.
-\item Suppleant övertar ordförandens befogenheter vid styrelsemöten vid ordförandens bortfall, undantaget då styrelsemötet hålls bakom stängda dörrar.
-\end{itemize}
-\end{enumerate}
-
-\subsection{Styrelsemöten}
-
-\begin{enumerate}[\thesubsection .1]
-
-\item Sektionsstyrelsen skall sammanträda minst 3 gånger per läsperiod.
-
-\item Kallelse till styrelsemöte anslås av sektionsordföranden.
-
-\item Kallelse till styrelsemöte skall senast två dagar innan mötet skickas till ordinarie ledamöter av sektionsstyrelsen, medlem av kommitté och nämnd, revisorer, talmanspresidiet samt övriga berörda sektionsföreningsmedlemmar och funktionärer.
-
-\item Protokoll från styrelsemöten anslås via sektionens officiella kommunikationskanaler.
-
-\item Ordinarie ledamöter av sektionsstyrelsen har närvaro-, yttrande-, förslags- och rösträtt. 
-
-\item Talmannen har närvaro-, yttrande- och förslagsrätt. Vid frågor som direkt berör sektionsmöten har talmannen även rösträtt. 
-
-\item Revisor och ledamöter av valberedningen har närvaro-, yttrande- och förslagsrätt
-
-\item Ledamöter av kommittéer och nämnd, samt sektionens inspektor, har närvaro- och yttranderätt.
-
-\item Varje medlem har rätt att få fråga behandla på styrelsemöte. Denna ska då skickas till styrelsen senast tre dagar innan mötet.
-
-
-\item Bakom stängda dörrar
-
-\begin{itemize}
-\item Sektionsstyrelsen kan, om synnerliga skäl föreligger, för visst ärende med minst 2/3 majoritet besluta att överläggning sker bakom stängda dörrar.
-\item Enbart ordinarie ledamöter av sektionsstyrelsen äger närvarorätt vid möte bakom stängda dörrar.
-\item Sektionsstyrelsen kan adjungera in övriga deltagare.
-\item Endast beslutsprotokoll fört då mötet hålls bakom stängda dörrar skall anslås.
-\item Det som diskuteras bakom stängda dörrar får ej föras vidare till tredje part. 
-\end{itemize}
-
-\end{enumerate}
-
-
-
-
-
-\subsection{Åligganden}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item Det åligger sektionsstyrelsen:
-    \begin{description}
-      \item[att] verka för sammanhållningen mellan sektionsmedlemmarna
-      och verka för deras gemensamma intressen.
-      \item[att] leda sektionens arbete.
-      \item[att] verkställa och övervaka genomförandet av sektionsmötesbeslut.
-      \item[att] framlägga budget till sektionsmötet.
-      \item[att] planera Fysikteknologsektionens framtida inriktning och verk\-sam\-het.
-      \item[att] fatta beslut i de ärenden som framlägges till sektionsstyrelsen.
-      \item[att] varje år tillsammans med studienämnden utse
-      sektionens representanter i styrelser och kommittéer inom
-      högskolan. Dock krävs för ledamöterna i Programrådet godkännande
-      från sektionsmötet.
-      \item[att] granska och utse phaddergruppsansvariga under inrådan av
-      FnollK.
-      \item[att] delta i de av Djungelpatrullen anordnade städdagarna två gånger per
-      läsår. Om detta uppfylls får de närvarande gå gratis på nästa
-      sektionsaktivafest.
-      \item[att] i samråd med de som önskar söka sektionsstyrelsen ta fram en preliminär 
-      verksamhetsplan och presentera denna på sektionsmöte innan utgången av läsperiod 4.
-\item[att] följa de av sektionen upprättade arbetsordningarna.
-    \end{description}
-
-  \item Det åligger sektionsstyrelsens ordförande:
-    \begin{description}
-      \item[att] tillse att sektionens beslut verkställs.
-      \item[att] föra sektionens talan då något annat ej stadgats eller beslutats.
-      \item[att] teckna sektionens firma.
-      \item[att] tillse att sektionsmöten sammankallas.
-      \item[att] leda och övervaka arbetet inom sektionsstyrelsen.
-      \item[att] vara Fysikteknologsektionens representant i kårledningsutskottet.
-      \item[att] tillse att det finns representanter från sektionsstyrelsen i F:s eller TM:s programråd.
-      \item[att] tillsammans med sektionskassören ansvara för Fysikteknologsektionens ekonomi.
-
-    \end{description}
-    \noindent
-    Sektionsordförande har full insyn i Fysikteknologsektionens alla
-    organ och äger rätt att deltaga i deras möten med yttranderätt.
-
-  \item Det åligger sektionsstyrelsens vice ordförande:
-    \begin{description}
- 
-      \item[att] i ordförandes frånvaro överta dennes åligganden.
-      \item[att] biträda ordföranden.
-      \item[att] i samråd med styrelsen och övriga sektionsaktiva upprätta sektionens verksamhetsberättelse.
-    
-    \end{description}
-  \item Det åligger sektionsstyrelsens  kassör:
-    \begin{description}
-      \item[att] sköta och ansvara för Fysikteknologsektionens ekonomi tillsammans med ordföranden.
-      \item[att] fortlöpande kontrollera kommittéernas samt eventuella sektionföreningars räkenskaper och bokför\-ing.
-      \item[att] teckna sektionens firma.
-      \item[att] genom Chalmers Studentkår uppbära sektionsavgiften.
-      \item[att] i samråd med sektionsstyrelsen upprätta preliminärt budgetförslag till första ordinarie höstmötet.
-      \item[att] till varje sektionsmöte kunna redogöra för sektionens ekonomiska ställning.
-    \end{description}
-
-  \item Det åligger sektionsstyrelsens sekreterare:
-    \begin{description}
-      \item[att] föra protokoll vid styrelsemöten och senast två läsdagar efter möte överräcka renskrivet protokoll till ordföranden.
-      \item[att] tillse att protokoll från  styrelsemöten anslås.
-      \item[att] tillse att sektionens stadgar, reglemente och förordningar är aktuella och efterlevs.
-    \end{description}
-
-  \item Det åligger sektionsstyrelsens skyddsombud:
-    \begin{description}
-      \item[att] vara sektionens studerandearbetsmiljöombud
-      enligt punkt 10.6 ''Fysikteknologsektionens Studerandearbetsmiljöombud'' samt vara Fys\-ik\-teknolog\-sektionens jämlikhetsansvarige. SAMO har i sitt uppdrag tystnadsplikt.
-      \item[att] tillvarata sektionsmedlemmarnas intressen i skyddsfrågor, jämlikhets- och jämställdhetsfrågor och samarbeta med Chalmers Studentkårs kontaktman samt högskolans skyddsombud.
-      \item[att] deltaga på studienämndens möten då arbetsmiljöfrågor behandlas.
-    \end{description}
-    
-  \item Det åligger sektionsstyrelsens informationsansvariga:  
-    \begin{description}
-      \item[att] sköta kontakt med sektionen samt uppdatera sektionens hemsida. 
-      \item[att] tillse att material som inkommer till sektionen anslås eller på annat sätt förmedlas  till den/dem det berör.
-      \item[att] vara sektionsstyrelsens representant i Spidera.
-    \end{description}    
-
-  \item Det åligger sektionsstyrelsens  övriga ledamöter:
-    \begin{description}
-      \item[att] bistå sektionsstyrelsen med information.
-      \item[att] aktivt deltaga i beslutsprocessen.
-      \item[att] redogöra för sin kommittés/studienämnds löpande verksamhet vid styrel\-se\-möten.
-      
-    \end{description}
-\end{enumerate}
-
-
-\newpage
-
-\section{Nämnder}
-
-\subsection{Studienämnden}
-
-\subsubsection{Villkor för ledamöter i studienämnden}
-\begin{itemize}
-\item En person kan ej inneha två poster i studienämnden samtidigt
-\item Ekonomiskt ansvarig i studienämnden skall vara myndig
-\item En person kan ej inneha ordförandepost i en kommitté eller nämnd samtidigt som denne innehar vice ordförandepost i annan kommitté eller nämnd.
-\end{itemize}
-
-\subsubsection{Sammansättning}
-
-%\begin{enumerate}[\thesubsection .1]
-\begin{itemize}
-
-  \item Studienämnden består av följande poster:
-    \begin{itemize}
-
-      \item Ordförande
-      \item Vice ordförande
-      \item Kassör
-      \item Sekreterare
-      \item Kandidatansvarig
-      \item Masteransvarig
-      \item Årskursrepresentant åk. 1
-      \item Veckobladerist
-      \item Matansvarig
-
-    \end{itemize}
-Där ordförande, vice ordförande och kassör anses vara förtroendevalda.
-
-%\end{enumerate}
-\end{itemize}
-
-\subsection{Verksamhet}
-Studienämnden har en verksamhet som går från 1 juli till 30 juni.
-
-\subsubsection{Åligganden}
-
-\begin{itemize}%[\thesubsection .1]
-
-  \item Det åligger studienämnden:
-    \begin{description}
-     
-      \item[att]  sammanträda minst tre gånger per läsperiod.
-    
-      \item[att] ansvara för utvecklandet av utbildningsbevakningen på
-				Fysiktekno\-log\-sektionen.
-      \item[att] inför Fysikteknologsektionen svara för att F- och TM-teknologernas
-      intressen i studie\-frågor och studiemiljö bevakas på ett
-      tillfredsställande sätt.
-      \item[att] tillse att det finns representant från studienämnden i programråden för F och TM.
-      \item[att] på verksamhetsårets första sektionsmöte presentera en verksamhetsplan för det kommande läsåret.   
-      \item[att] följa åligganden enligt arbetsbeskrivning.
-    \end{description}
-
-	\vspace{5mm}
-
-  \item Det åligger studienämndens ordförande:
-    \begin{description}
-      \item[att] tillse att studienämndens ålägganden utförs.
-      \item[att] leda studienämndens verksamhet.
-      \item[att] kalla studienämnden till sammanträde.
-      \item[att] tillsammans med kassören ansvara för studienämndens ekonomi.
-      \item[att] representera studienämnden i sektionsstyrelsen.
-      \item[att] i studie- och studiemiljöfrågor representera Fysikteknologsektionen och föra dess talan.
-      \item[att] representera F och TM i Utbildningsutskottet, UU.
-      \item[att] inför Fysikteknologsektionen svara för att F- och TM-teknologernas
-      intressen i studie\-frågor och studiemiljö bevakas på ett
-      tillfredsställande sätt.
-    \end{description}
-
-  \item Det åligger studienämndens vice ordförande:
-    \begin{description}
-      \item[att] assistera ordföranden i dennes åligganden.
-      \item[att] ersätta ordföranden när denne inte är närvarande.
-      \item[att] ansvara för studiesociala evenemang.
-      \item[att] vara studienämndens suppleant i sektionsstyrelsen och Utbildningsutskottet.
-    \end{description}
-
-  \item Det åligger studienämndens kassör:
-    \begin{description}
-      \item[att] sköta och ansvara för studienämndens ekonomi tillsammans med ordförande.
-      \item[att] kontinuerligt föra en granskningsbar redovisning gällande studienämnden:s ekonomi.
-      \item[att] mot revisorerna och sektionskassören kontinuerligt redovisa den ekonomiska situationen. 
-    \end{description}
-
-	\vspace{5mm}
-	
-    
-    \item Det åligger studienämndens sekreterare
-     \begin{description}
-         \item[att] tillse att protokoll förs på studienämndens möten.
-    \item[att] anslå nämndens protokoll enligt stadgarna.
-     \end{description}
-
-  \item Det åligger studienämndens medlemmar:
-    \begin{description}
-      \item[att] vara ordföranden behjälplig.
-    \end{description}
-
-\end{itemize}
-
-
-\newpage
-
-\section{Kommittéer}
-
-\subsection{Villkor för kommittéledamöter}
-\begin{itemize}
-\item En person kan ej inneha två ledamotsposter i samma kommitté.
-\item Ekonomiskt ansvarig i kommitté skall vara myndig
-\item En person kan ej inneha ordförandepost i en kommitté eller nämnd samtidigt som denne innehar viceordförandepost i annan kommitté eller nämnd.
-
-\end{itemize}
-
-\subsection{Förteckning}
-
-\begin{enumerate}[\thesubsection .1]
-  \item Fysikteknologsektionens Sektionskommittéer är:
-    \begin{itemize}
-      \item Fysikteknologsektionens Arbetsmarknadsgrupp, FARM.
-      \item Fysikteknologsektionens Mottagningskommitté, FnollK.
-      \item Fysikteknologsektionens Sexmästeri, F6.
-      \item Fysikteknologsektionens PR-förening och Rustmästeri, Djungelpatrullen.
-      \item Fysikteknologsektionens Focumateri, Focumateriet. 
-    \end{itemize}
-\end{enumerate}
-
-\subsection{Åligganden}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item Det åligger varje sektionskommitté:
-    \begin{description}
-    \item[att] på det ordinarie sektionsmöte som följer på det, att kommittens verksamhetsår börjat, presentera en verksamhetsplan för det kommande verksamhetsåret.     
-     \item[att] följa åligganden enligt arbetsbeskrivning. 
-    \end{description}
-
-%\end{enumerate}
-%\begin{enumerate}[\thesubsection .1]
-
-  \item Det åligger kassören i varje sektionskommitté:
-    \begin{description}
-      \item[att]  mot revisorerna och sektionskassören kontinuerligt redovisa för den ekonomiska situationen.
-       \end{description}
-\end{enumerate}
-
-\subsection{FARM}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item FARM består av följande poster:
-    \begin{itemize}
-	 \item Ordförande.
-         \item Vice Ordförande
-	 \item Kassör.
-	 \item 0-5 ledamöter.
-   \end{itemize}
-Där ordförande, vice ordförande och kassör är förtroendeposter.
-
-
-\item Farm har en verksamhet som går från 1 januari till 31 december.
- 
-  \item Vid räkenskapsårets slut skall tillgångar över 0,659 basbelopp tillfalla sektionen. Visst utrymme för representation får förekomma.
-
-  \item Det åligger FARM:
-    \begin{description}
-      \item[att] arrangera studiebesök och branschkvällar.   
-      \item[att] informera företag om programmen Teknisk fysik samt Teknisk matematik, och deras fördelar.
-    \end{description}
-
-  \item Det åligger FARM:s ordförande:
-    \begin{description}
-      \item[att] tillse att kommitteens åligganden utförs.
-      \item[att] leda FARM:s arbete.
-      \item[att] tillsammans med kassören ansvara för FARM:s ekonomi.
-      \item[att] fungera som kontaktlänk mellan FARM och övriga kommittéer samt företräda FARM i sektionsstyrelsen.
-    \end{description}
-
-  \item Det åligger FARM:s vice ordförande:
-    \begin{description}
-      \item[att] vara kommitténs suppleant i sektionsstyrelsen.
-      \item[att] hjälpa FARM-ordföranden i dennes uppgifter så att de utförs på bästa sätt.
-    \end{description}
-
-  \item Det åligger FARM:s kassör:
-    \begin{description}
-      \item[att] tillsammans med ordförande ansvara för och sköta FARM:s ekonomi.
-      \item[att] kontinuerligt föra en granskningsbar redovisning gällande FARM:s ekonomi.
-    \end{description}
-
-  \item Det åligger övriga FARM-medlemmar:
-    \begin{description}
-      \item[att] hjälpa FARM- ordföranden i dennes uppgifter så att de utförs på bästa sätt.
-    \end{description}
-
-\end{enumerate}
-
-
-\subsection{FnollK}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item FnollK består av följande poster:
-    \begin{itemize}
-      \item Ordförande.
-      \item Vice Ordförande
-      \item Kassör.
-      \item 0-4 ledamöter.
-    \end{itemize}
-
-  Där ordförande, vice ordförande och  kassör förtroendeposter.
-  
-  \item FnollK har en verksamhet som går från 1 januari till 31 december.
-
-  \item Verksamheten drivs på ideell basis, d.v.s. den ska gå jämnt
-  upp. Dock skall det finnas ett visst utrymme för ersättning i form
-  av representation. Eventuellt överskott tillfaller sektionen. 
-
-  \item Det åligger FnollK:
-    \begin{description}
-      \item[att] genomföra en värdig mottagning i enlighet med kårens och sektionens intentioner.
-      \item[att] arrangera aktiviteter för F- och TM-nollan som syftar till
-      att införliva Nollan i livet som F- respektive TM-teknolog både vad gäller
-      studier och det studiesociala livet.
-      \item[att] under ledning av FnollKs  ordförande planera och leda dessa aktiviteter i samråd med berörda organ.
-      \item[att] tillse att valen Åke bär nollbricka om gamble så
-      tycker.
-      \item[att] kanske tillse att Schrödingers katt kanske bär nollbricka.
-    \end{description}
-
-  \item Det åligger FnollK:s ordförande:
-    \begin{description}
-      \item[att] tillse att kommitteens åligganden utförs.
-      \item[att] leda och ansvara för FnollKs arbete.
-     
-     
-      \item[att] fungera som kontaktlänk mellan FnollK och övriga kommittéer samt företräda FnollK i sektionsstyrelsen.
-      \item[att] tillsammans med FnollKs kassör ansvara för FnollKs ekonomi.
-      \item[att] representera Fysikteknologsektionen i Chalmers Studentkårs samarbetsorgan för mottagningen, MoS.
-    \end{description}
-
-\item Det åligger FnollK:s vice ordförande:
-\begin{description}
- \item[att] vara kommitténs suppleant i sektionsstyrelsen
- \item[att] vid ordförandens frånvaro överta dennes åligganden
-\end{description}
-
-  \item Det åligger FnollK:s kassör:
-    \begin{description}
-      \item[att] sköta och tillsammans med FnollKs ordförande an\-sva\-ra för FnollKs ekonomi.
-      \item[att] kontinuerligt föra en granskningsbar redovisning gällande FnollKs  ekonomi.
-    \end{description}
-
-
-  \item Det åligger FnollK:s övriga ledamöter:
-    \begin{description}
-      \item[att] hjälpa FnollK-ordföranden i dennes uppgifter så att de utförs på bästa sätt.
-    \end{description}
-
-\end{enumerate}
-
-\subsection{F6}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item F6 består av följande poster:
-  
-    \begin{itemize}
-      \item Ordförande, Sexmästare.
-      \item Vice ordförande, Sexreterare.
-      \item Kassör.
-      \item 0-6 ledamöter
-    \end{itemize}
-Där ordförande, vice ordförande och kassör är förtroendeposter
-
-\item F6 har en verksamhet som går från 1 juli till 30 juni.
-
-
-  \item Verksamheten skall drivas i icke vinstdrivande syfte. Vid
-  räkenskaps\-år\-ets slut skall kommitténs tillgångar upp till 0,659
-  basbelopp övergå till nästkommande års kommitté. Tillgångar
-  därutöver tillfaller sektionen. Visst utrymme för representation får
-  förekomma.
-
-  \item Det åligger F6:
-    \begin{description}
-      \item[att] minst en gång per läsperiod anordna gasque.
-      \item[att] ansvara för kalas- och tentamensfestlighetsverksamhet på sektionen.
-      \item[att] vara ett komplement till FnollK under mottagningen.
- 
-    \end{description}
-
-  \item Det åligger F6:s ordförande, Sexmästaren:
-    \begin{description}
-      \item[att] tillse att kommitténs åligganden utförs.
-      \item[att] leda F6:s arbete.
-      \item[att] fungera som kontaktlänk mellan F6 och övriga kommittéer samt företräda F6 i sektionsstyrelsen.
-      \item[att] att vara Fysiktteknologsektionens representant i
-        Gasquerådet, om F6 beslutar att vara medlemmar i
-        Gasquerådet.
-      \item[att] tillsammans med kassören ansvara för F6:s ekonomi.
-    \end{description}
-
-  \item Det åligger F6:s vice ordförande, Sexreteraren:
-    \begin{description}
-      \item[att] vid sexmästarens frånvaro utföra dennes uppgifter.
-      \item[att] vara kommitténs suppleant i sektionsstyrelsen
-    \end{description}
-
-  \item Det åligger F6:s kassör:
-    \begin{description}
-      \item[att] tillsammans med Sexmästaren ansvara för F6:s ekonomi.
-      \item[att] kontinuerligt föra en granskningsbar redovisning gällande F6:s ekonomi.
-    \end{description}
-
-  \item Det åligger F6:s övriga medlemmar:
-    \begin{description}
-      \item[att] hjälpa de förtroendevalda i F6:s verksamhet.
-    \end{description}
-
-\end{enumerate}
-
-\subsection{Djungelpatrullen}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item Djungelpatrullens poster utgörs av:
-    \begin{itemize}
-      \item Ordförande, Överste.
-      \item Vice Ordförande, Rustmästare.
-      \item Kassör, Skattmästare.
-      \item 0--7 adjutanter
-    \end{itemize}
-Där Ordförande, Vice ordförande och kassör är förtroendeposter
-
-    
-    \item Djungelpatrullen har en verksamhet som går från 1 juli till 30 juni.
-
-  \item Verksamheten skall drivas i icke vinstdrivande syfte. Vid
-  räkenskaps\-årets slut skall kommitténs tillgångar upp till 0,659
-  basbelopp övergå till nästkommande års kommitté. Tillgångar
-  därutöver tillfaller sektionen. Visst utrymme för representation får
-  förekomma.
-
-  \item Det åligger Djungelpatrullen:
-    \begin{description}
-      \item[att] tillse att sektionshelgonet vördas på ett hedersamt sätt av alla
-	Fysikteknologsektionens medlemmar.   
-      \item[att] ansvara för att det ordnas arrangemang för medlemmarna på
-	Fysikteknologsektionen. Dessa skall hållas i en anda som ökar samman\-håll\-ning\-en på
-	Fysikteknologsektionen och ökar kontakten över årskursgränserna.
-      \item[att] vara ett komplement till FnollK under mottagningen. 
-      \item[att] sköta det löpande underhållet av Fysikteknologsektionens lokaler och egendom.
-      \item[att] vårda sektionens traditioner.
-
-   
-    \end{description}
-
-  \item Det åligger Djungelpatrullens ordförande, Översten:
-    \begin{description}
-      \item[att] tillse att kommitténs åligganden utförs. 
-      \item[att] leda Djungelpatrullens arbete.
-      \item[att] fungera som kontaktlänk mellan Djungelpatrullen och
-      övriga kommittéer samt företräda Djungelpatrullen i sektionsstyrelsen.
-      \item[att] tillsammans med Skattmästaren ansvara för Djungelpatrullens ek\-o\-nomi.
-    \end{description}
-
-  \item Det åligger Djungelpatrullens vice ordförande, Rustmästaren:
-    \begin{description}
-      \item[att] i överstens frånvaro leda Djungelpatrullens arbete.
-      \item[att] leda renoverings- och underhållsarbeten i sektionens lokaler.
-      \item[att] ansvara för uthyrning av Focus inventarier.
-      \item[att] vara kommitténs suppleant i sektionsstyrelsen.
-    \end{description}
-
-  \item Det åligger Djungelpatrullens kassör, Skattmästaren:
-    \begin{description}
-      \item[att] tillsammans med ordförande ansvara för och sköta Djungelpatrullens ekonomi.
-      \item[att] kontinuerligt föra en granskningsbar redovisning gällande Djungelpatrullens ekonomi.
-    \end{description}
-
-  \item Det åligger Djungelpatrullens adjutanter:
-    \begin{description}
-      \item[att] hjälpa de förtroendevalda i DP:s verksamhet.
- 
-    \end{description}
-
-\end{enumerate}
-
-\subsection{Focumateriet}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item Focumateriets utgörs av följande poster:
-  
-    \begin{itemize}
-      \item Ordförande, kapten.
-      \item Vice ordförande, automatpirat.
-      \item Kassör, kistväktare.
-      \item 0--5 övriga ledamöter
-    \end{itemize}
-    Där ordförande, vice ordförande och kassör är förtroendeposter.
-
-    \item Focumateriet har en verksamhet som går från 1 juli till 30 juni.
-
-
-  \item Verksamheten skall drivas i icke vinstdrivande syfte. Vid räkenskapsårets slut skall kommitténs tillgångar upp till 0,659 basbelopp övergå till nästkommande års kommitté. Tillgångar därutöver tillfaller sektionen. Visst utrymme för representation får förekomma.
-
-  \item Det åligger Focumateriet:
-    \begin{description}
-      \item[att] handha Focumaten, samt, efter sektionsstyrelsens bestämmande,
-      av sektionen ägda automater samt av sektionen ägd elektronisk
-      utrustning.
-   
-    \end{description}
-
-  \item Det åligger Focumateriets ordförande:
-    \begin{description}
-      \item[att] leda Focumateriets arbete.
-      \item[att] tillse att kommitténs åligganden efterföljs.
-      \item[att] tillsammans med kassören ansvara för kommitténs ekonomi.
-    \end{description}
-
- \item Det åligger Focumateriets vice ordförande:
-    \begin{description}
-      \item[att] vara kommitténs suppleant i sektionsstyrelsen
-      
-      \item[att] vid ordförandens frånvaro överta dennes åligganden
-      
-    \end{description}
-
-
-  \item Det åligger Focumateriets kassör:
-    \begin{description}
-      \item[att] tillsammans med orföranden ansvara för och sköta Focumateriets ekonomi.
-      \item[att] kontinuerligt föra en granskningsbar redovisning gällande focumateriets ekonomi.
-    \end{description}
-
-  \item Det åligger Focumateriets övriga ledamöter:
-    \begin{description}
-      \item[att] hjälpa Focumateriordföranden att efterfölja focumateriets åligg\-and\-en.
-    \end{description}
-
-\end{enumerate}
-
-\newpage
-
-\section{Sektionsföreningar}
-
-\subsection{Villkor för sektionsföreningsmedlemmar}
-\begin{itemize}
-    \item En person kan ej inneha två ledamotsposter i samma sektionsförening.
-    \item Ekonomisk ansvarig ska vara myndig.
-\end{itemize}
-
-\subsection{Företeckning}
-\begin{enumerate}[\thesubsection .1]
-    \item Fysikteknologsektionens Sektionsföreningar är:
-    \begin{itemize}
-      \item Fabiola
-      \item Fysikteknologsektionens Idrottsförening, FIF.
-      \item Foton
-    \end{itemize}
-\end{enumerate}
-
-\subsection{Åligganden}
-\begin{enumerate}[\thesubsection .1]
-    \item Det åligger varje sektionsförening
-    \begin{description}
-     \item[att] följa åligganden enligt arbetsbeskrivning.
-    \end{description}
-    
-    \item Det åligger ekonomisk ansvarig:
-    \begin{description}
-     \item[att] mot revisorerna och sektionskassören kontinuerligt redovisa för den ekonomiska situationen.
-    \end{description}
-\end{enumerate}
-
-\subsection{Fabiola}
-\begin{enumerate}[\thesubsection .1]
-    \item Fabiola består av 1-10 ledamöter varav en väljs internt till ordförande. Fabiola innehar inga förtroendeposter.
-    \item Det åligger Fabiola:
-    \begin{description}
-     \item[att] arrangera evenemang riktade mot kvinnor på sektionen.
-    \end{description}
-\end{enumerate}
-
-\subsection{Fysikteknologsektionens Idrottsförening, FIF}
-\begin{enumerate}[\thesubsection .1]
-    \item FIF består av följande poster:
-    \begin{itemize}
-     \item Ordförande.
-     \item Kassör.
-     \item 0-7 ledamöter.
-    \end{itemize}
-    Där ordförande och kassör är förtroendeposter.
-    
-    \item FIF har en verksamhet som går från 1 april till 31 mars.
-    
-    \item Verksamheten skall drivas i icke vinstdrivande syfte. Vid räkenskapsårets slut skall föreningens tillgångar upp till 0,659 basbelopp övergå till nästkommande års förening. Tillgångar därutöver tillfaller sektionen. Visst utrymme för representation får förekomma.
-    
-    \item Det åligger FIF:
-    \begin{description}
-     \item[att] främja idrottskulturen på sektionen genom att arrangera regelbundna träningar.
-     \item[att] handha idrottsmaterial samt sköta utlåning av denna till sektionsmedlemmar.
-    \end{description}
-    
-    \item Det åligger FIF:s ordförande:
+	    \pgf JämF består av sektionsstyrelsens skyddsombud, en representant vardera från de kommittéer och sektionsföreningar där intresse för medlemskap finns, samrt 2--3 fristående ledamöter.
+	    
+    \subsection{Mastermottagningsansvarig}
+        \pgf Mastermottagningsansvarigs syfte är att vara med och arrangera en mastermottagning vid utbildningsområdet som sektionens kandidatprogram tillhör.
+        
+        \pgf Mastermottagningsansvarig är en till antalet.
+        
+        \pgf Det åligger mastermottagningsansvarig
         \begin{description}
-          \item[att] tillse att FIF:s åligganden utförs.
-          \item[att] leda FIF:s arbete.
-          \item[att] fungera som kontaktlänk mellan FIF och andra
-          föreningar på sektionen samt tillse att kontakt med andra
-          sektioners idrotts\-före\-ning\-ar uppehålls.
-          \item[att] tillsammans med kassören ansvara för FIF:s ekonomi.
-          \item[att] tillsammans med kassören presentera ett bokslut vid det första sektionsmötet efter verksamhetsårets slut.
+            \item[att] tillsammans med andra mastermottagningsansvariga vid utbildningsområdet för sektionens kandidatprogram arrangera en mottagning för nya studenter vid relaterade masterprogram.
         \end{description}
         
-    \item Det åligger FIF:s kassör:
-    \begin{description}
-      \item[att] tillsammans med ordföranden ansvara för FIF:s ekonomi.
-      \item[att] kontinuerligt föra en granskningsbar redovisning gällande FIF:s ekonomi.
-      \item[att] tillsammans med ordföranden presentera ett bokslut vid det första sektionsmötet efter verksamhetsårets slut.
-    \end{description}
-    
-    \item Det åligger FIF:s övriga ledamöter:
-    \begin{description}
-      \item[att] hjälpa FIF:s ordförande att efterfölja FIF:s åligg\-and\-en.
-    \end{description}
-    
-\end{enumerate}
-
-\subsection{Foton}
-\begin{enumerate}[\thesubsection .1]
-   \item Foton består av 1-6 ledamöter varav en väljs internt till ordförande. Foton innehar inga förtroendeposter.
-   
-   \item Det åligger Foton:
-    \begin{description}
-    \item [att] löpande dokumentera sektionens arrangemang.
-    \item [att] i samband med arbetsmässor arrangera porträttfotografering.
-    \item [att] stödja sektionens kommittéer och nämnder vid behov av filmning eller fotografering.
-    \end{description}
-    
-\end{enumerate}
-
-\newpage
+    \subsection{Frisörer}
+        \pgf Frisörernas syfte är att sköta om F-sektionens sektionssten, Einsten.
+        
+        \pgf Frisörerna är till antalet 0--2.
 
-\section{Funktionärer}
+\tempsection{Intresseföreningar}
+	\subsection{Förteckning}
+		\pgf Fysikteknologsektionens intresseföreningar är:
+			\begin{itemize}
+				\item F-spexet
+				\item Fysikteknologsektionens Japanförening, \begin{CJK}{UTF8}{min}物理学部日本文化会\end{CJK}
+				\item 3Dteamet
+				\item Fysikteknologsektionensspelförening, FyS.
+			\end{itemize}
 
-\subsection{Förteckning}
+	\subsection{F-spexet}
+        F-spexets syfte är att årligen verka för att sätta upp ett spex, och på så sätt sprida spexkulturen i Göteborgsområdet allt medan spexets medlemmar har roligt.
 
-\begin{enumerate}[\thesubsection .1]
+	\subsection[Fysikteknologsektionens Japanförening]{Fysikteknologsektionens Japanförening, \begin{CJK}{UTF8}{min}物理学部日本文化会\end{CJK}}
+        Fysikteknologsektionens Japanförenings syfte är att vara en mötesplats för individer med intresse för japansk kultur och det japanska språket samt att främja och underhålla detta intresse och denna språkkunskap. 
 
-  \item Fysikteknologsektionens sektionsfunktionärer är:
-    \begin{itemize}
-      \item Fysikteknologsektionens informationsskrift, Finform.
-      \item Sångförmännen.
-      \item Revisorer.
-      \item Fysikteknologsektionens skyddshelgon Dragos.
-      \item Fanfareriet.
-      \item Bilnissar.
-      \item Blodgruppen.
-      \item Kräldjursvårdare.
-      \item Dumvästinnehavare.
-      \item Bakisclubben (BC).
-      \item Fysikteknologsektionens webbgrupp, Spidera.
-      \item Sektionsnörd.
-      \item Balnågonting.
-      \item Game boy
-      \item Piff och Puff 
-    \end{itemize}
+	\subsection{3Dteamet}
+        3Dteamets syfte är att verka för att till sina medlemmar tillgängligöra 3D-skrivare och annan utrustning som föreningen har att tillgå samt att administrera och underhålla utrustning och hemsida.
 
-\end{enumerate}
+	\subsection{Fysikteknologsektionensspelförening, FyS}
+        Fysikteknologsektionens spelförenings syfte är att främja intresset av digitala spel på sektionen.
 
-\subsection{Åligganden}
+\tempsection{Styrdokument}
+	\subsection{Förteckning}
+        \pgf Följande styrdokument skall finnas på sektionen:
+			\begin{itemize}
+				\item Sammanträdesordning sektionsmötet
+				\item Riktlinjer för verksamhetsberättelse och ansvarsfrihet
+				\item Arbetsordningar
+			\end{itemize}
+            Därtill regleras verksamheten av övriga dokument som sektionsstyrelsen beslutat vara styrdokument. Komplett förteckning över övriga styrdokument skall tillhandahållas av sektionsstyrelsen.
 
-\begin{enumerate}[\thesubsection .1]
+	\subsection{Ändrings- och tolkningsfrågor}
+		\pgf Vad gäller ändring och tolkning av enskilda styrdokument ska detta anges i de individuella dokumenten. Om uteblivet sker ändringar och tolkningar av sektionsstyrelsen via enkel majoritet. 
 
-  \item Det åligger varje sektionsfunktionär:
-    \begin{description}
-    \item[att] följa upprättad arbetsordning.
-  
-    \end{description}
+		\pgf Uppstår tolkningstvist om detta reglementes tolkning skall frågan hänskjutas till sektionens inspektor.
 
-\end{enumerate}
+		\pgf Vid konflikt med Fysikteknologsektionens övriga styrdokument har reglementet företräde.
 
-\subsection{Finform}
+\tempsection{Fysikteknologsektionens fonder}
+	\subsection{Förteckning}
+		\pgf Fysikteknologsektionens fonder är:
+			\begin{itemize}
+				\item F-fonden
+				\item Focus-fonden.
+			\end{itemize}
 
-\begin{enumerate}[\thesubsection .1]
+	\subsection{F-fonden}
+		\pgf Sektionens medel bör göras räntebärande genom placering i räntefond.
 
-  \item Finform är Fysikteknologsektionens informationsskrift och
-  skall på ett lättillgängligt sätt presentera intressanta fakta,
-  skämt och skvall\-er. 
+		\pgf F-Fondens medel kan användas till:
+			\begin{itemize}
+				\item Renovering av Fysikteknologsektionens lokaler.
+				\item Införskaffande och renovering av sektionsbil.
+				\item Inköp av inventarier.
+				\item Att täcka eventuellt överdrag av budgeten.
+				\item Sektionens oförutsedda utgifter.
+				\item Annat som sektionsmötet finner lämpligt.
+			\end{itemize}
 
-  \item Finforms redaktion består av chefredaktör tillika ansvarig utgivare, kassör samt 2-8
-  redak\-tör\-er.
+		\pgf Fonden handhas av sektionsstyrelsen.
 
-  \item Ansvarig utgivare för Finform tillträder efter
-  inregistrering enligt gällande lag.
+		\pgf Uttag ur F-fonden beslutas av sektionsmöte. Sådant uttag kan dock ej göras om ärendet inte upptagits på slutlig föredragningslista.
 
-  \item Det åligger Finform-redaktionen:
-    \begin{description}
-      \item[att] producera minst 4 nummer av Finform per läsår, med för\-del\-ningen 2 på hösten och 2 på våren.
-      \item[att] ansvara för tryckning och distribution.
+		\pgf Sektionsstyrelsen får för den löpande driften låna medel ur F-fonden. Vid sådant lån behöver fonden ej kompenseras för ränteförlusten.
 
-    \end{description}
+		\pgf Överblivna medel inom Fysikteknologsektionen skall i möjligaste mån tillfalla fonden. Har styrelsen vid verksamhetsårets slut ej tagit samtliga medel inom budgeten i anspråk, skall överskjutande medel avsättas till F-fonden.
 
-  \item Det åligger Finforms chefredaktör:
-    \begin{description}
-       \item[att] vara ansvarig utgivare.
-      \item[att] tillse att Finforms åliggande  utförs.
-      \item[att] leda Finforms arbete.
-    \end{description}
+		\pgf F-fondens medel skall göras räntebärande genom placering i lågriskfonder. Räntan skall fonderas.
 
+		\pgf När F-fonden understiger det under året gällande basbeloppet skall avsättning till F-fonden ske årligen med minst 15\% av inbetalda sektionsavgifter tills fonden återigen uppgår till minst ett basbelopp.
 
-  \item Det åligger Finforms kassör:
-    \begin{description}
-      \item[att] tillsammans med chefredaktören ansvara för Finforms ekonomi.
-      \item[att] ansvara för att Finforms ekonomiska anslag används inom av sektionsstyrelsen fastställd ram.
-    \end{description}
+	\subsection{Focus-fonden}
+		\pgf Att fondera medel för framtida upprustning av Focus.
 
+		\pgf Focus-fondens medel kan användas till:
+			\begin{itemize}
+				\item Renovering av Focus
+				\item Inköp av inventarier till Focus.
+			\end{itemize}
 
-  \item Det åligger Finforms ansvariga utgivare:
-    \begin{description}
-      \item[att] kontrollera Finform så att Finform inte agerar olagligt, krän\-kan\-de eller på annat sätt olämpligt.
-      \item[att] Finform agerar på ett lämpligt sätt för att vara Fysikteknolog\-sek\-tionens officiella informationsskrift.
-    \end{description}
+		\pgf Fonden handhas av sektionsstyrelsen i samarbete med DP.
 
-\end{enumerate}
+		\pgf Uttag ur fonden beslutas av sektionsstyrelsen.
 
-\subsection{Fysikteknologsektionens Sångförmän}
-Sångförmännens syfte är att förvalta och bevara sektionens sångtraditioner.
-\begin{enumerate}[\thesubsection .1]
+		\pgf Överblivna medel inom budgetposten Focus upprustning tillfaller Focus-fonden vid verksamhetsårets slut.
 
-  \item Sångförmännen är till antalet 0-6.
+		\pgf Samtliga hyresintäkter för uthyrning av Focus tillfaller Focus-fonden.
 
-\end{enumerate}
+		\pgf Focus-fondens medel skall göras räntebärande genom placering i lågriskfonder. Räntan skall fonderas.
 
+\tempsection{Kommittéoverall}
+	\subsection{Utseende}
+		\pgf Kommittéoverallen ska:
+			\begin{itemize}
+				\item Vara svart.
+				\item Ha sektionsmärket högt upp på vänster ärm.
+				\item Ha Chalmersmärket högt upp på höger ärm.
+				\item Ha teknologens namn över bröstfickan och/eller på benen.
+				\item Ha kommittésoverallsmärket tryckt på ryggen.
+			\end{itemize}
+
+	\subsection{Bärande}
+		\pgf Kommittéoverallen ska bäras på ett sätt som främjar sammanhållningen på sektionen och bland övriga studenter.
 
-
-\subsection{Fysikteknologsektionens skyddshelgon, Dragos}
-
-\begin{enumerate}[\thesubsection .1]
-  \item Dragos är sektionens högste beskyddare, och utövar Fanfareriets hög\-sta befäl.
-\end{enumerate}
-
-
-\subsection{Fysikteknologsektionens Fanfareri}
-Fanfareriets syfte är att ta hand om sektionens fanor och flaggor.
-\begin{enumerate}[\thesubsection .1]
-
-  \item Fanfareriet består av en flaggmarskalk och 1-2 fanbärare.
-
-
-\end{enumerate}
-
-\subsection{Fysikteknologsektionens Bilnissar}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item Bilnissarna består av en ekonomisk bilnisse samt en mekanisk
-  bilnisse.
-
-  \item Det åligger Bilnissarna:
-    \begin{description}
-      \item[att] ansvara för de motorfordon som sektionsstyrelsen
-      beslutat om, dock endast sådana som sektionen helt eller delvis
-      förfogar över.
-      \item[att] ansvara för uthyrning av dessa fordon, enligt taxa
-      fastställd av sektionsstyrelsen.
-    \end{description}
-
-  \item Det åligger ekonomisk bilnisse:
-    \begin{description}
-      \item[att] vara sektionskassören behjälplig vid ekonomiska
-      ärenden rör\-an\-de bilnisse.
-    \end{description}
-
-  \item Det åligger mekanisk bilnisse:
-    \begin{description}
-      \item[att] tillse att ovannämnda fordon underhålls och repareras
-      på ett tillfredsställande sätt.
-    \end{description}
-
-\end{enumerate}
-
-\subsection{Fysikteknologsektionens Blodgrupp}
-Blodgruppens syfte är att uppmuntra sektionsmedlemmarna till att lämna blod
-\begin{enumerate}[\thesubsection .1]
-
-
-  \item Blodgruppen består av en ansvarig och 1-4 ledamöter.
-
-\end{enumerate}
-
-\subsection{Fysikteknologsektionens Kräldjursvårdare}
-Kräldjursvårdarens syfte är att ta hand om sektionens slang, Tilde.
-\begin{enumerate}[\thesubsection .1]
-
-  \item Det ska finnas en kräldjursvårdare på sektionen.
-
-  \item Sektionen skall inte ha kräldjur på Focus.
-
-\end{enumerate}
-
-\subsection{Fysikteknologsektionens Dumvästinnehavare}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item Det ska väljas en Dumvästinnehavare på varje sektionsmöte.
-
-  \item Reglemente angående Dumvästens utdelande:
-    \begin{enumerate}
-      \item Den, som med avsikt att erhålla Dumvästen utfört dumheter
-      bör ej vara kvalificerad till denna.
-      \item Kriminella handlingar är ej kvalificerade till Dumvästen,
-      såvida inte sektionsmötet anser detta.
-      \item Om ej tillräckligt kvalificerad dumhet nomineras, kvarstår\\
-      Dum\-väst\-en hos innehavaren för tillfället.
-    \end{enumerate}
-
-  \item Förteckning över Dumvästinnehavare genom tiderna tillhandahålls av sektionsstyrelsen.
-
-\end{enumerate}
-
-\subsection{Bakisclubben (BC)}
-Bakisclubben (BC) ska främja bakverksamheten på sektionen.
-\begin{enumerate}[\thesubsection .1]
-
-  \item BC består av 0-6 bakisar.
-  
-  \item Det åligger Bakisclubben:
-    \begin{description}
-        \item[att] tillse att kanelbullar bakas inför samt att dessa kanelbullar är tillgängliga på Focus för alla sektionsmedlemmar att avnjuta i samband med Kanelbullens dag.
-    \end{description}
-
-\end{enumerate}
-
-\subsection{Spidera}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item Spidera består av en nätmästare,informationsansvarig från sektionsstyrelsen samt 1--9
-  nätmakare. Sektionsmötet väljer 2--10 teknologer till
-  Spidera, som i samråd med sektionsstyrelsen utser en nätmästare.
-
-  \item Det åligger Spidera:
-    \begin{description}
-      \item[att] administrera och utveckla Fysikteknologsektionens internetportal.
-    \end{description}
-
-  \item Det åligger Spideras nätmästare:
-    \begin{description}
-      \item[att] tillse att ansvarig för av Spidera disponerad hårdvara är medlem i Spidera.
-      \item[att] fungera som länk mellan sektionsstyrelsen och Spidera.
-      \item[att] kalla till möte med Spidera.
-    \end{description}
-
-
-\end{enumerate}
-
-\subsection{Fysikteknologsektionens Sektionsnörd}
-Sektionsnördens syfte är att ta hand om allting som rör sektionens prenumeration av Fantomen
-\begin{enumerate}[\thesubsection .1]
-
-  \item Det ska väljas en sektionsnörd.
-
-\end{enumerate}
-
-\subsection{Fysikteknologsektionens Balnågonting}
-Balnågontings syfte är att anordna bal, middag samt kringaktiviteter som tillhör balen
-\begin{enumerate}[\thesubsection .1]
-
-	\item Balnågonting har 0-5 medlemmar samt en representant vardera från FnollK, F6 och Djungelpatrullen.
-  
-\end{enumerate}
-
-\subsection{Game Boy}
-Game Boys syfte är att ta hand om de sällskapsspel som finns på Focus, samt främja
-brädspelsverksamheten på Fysikteknologsektionen.
-\begin{enumerate}[\thesubsection .1]
-
-	\item Game Boy består av 0-6 Game Boys
-	
-\end{enumerate}
-
-\subsection{Piff och Puff}
-Piff och Puff är sektionens aktivitetsgrupp, och syftar till att hjälpa sektionen engagera och underhålla fler sektionsmedlemmar, samt hjälpa sektionsmedlemmar med vägledning och tips om hur aktiviteter för sektionsmedlemmar kan genomföras.
-
-\begin{enumerate}[\thesubsection .1]
-
-	\item Piff och Puff består av 0-4 Piffar
-	
-\end{enumerate}
-
-\newpage
-
-
-\section{Intresseföreningar}
-
-\subsection{Förteckning}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item Fysikteknologsektionens intresseföreningar är:
-    \begin{itemize}
-    \item F-spexet.
-    \item Fysikteknologsektionens Japanförening, \begin{CJK}{UTF8}{min}物理学部日本文化会\end{CJK} .
-    \item 3Dteamet
-    \item Fysikteknologsektionensspelförening, FyS
-    \end{itemize}
-\end{enumerate}
-
-
-\subsection{F-spexet}
-F-spexets syfte är att årligen verka för att sätta upp ett spex, och på så sätt sprida spexkulturen i Göteborgsområdet allt medan spexets medlemmar har roligt.
-
-
-\subsection[Fysikteknologsektionens Japanförening]{Fysikteknologsektionens Japanförening, \begin{CJK}{UTF8}{min}物理学部日本文化会\end{CJK}}
-Fysikteknologsektionens Japanförenings syfte är att vara en mötesplats för individer med intresse för japansk kultur och det japanska språket samt att främja och underhålla detta intresse och denna språkkunskap. 
-
-\subsection{3Dteamet}
-3Dteamets syfte är att verka för att till sina medlemmar tillgängligöra 3D-skrivare och annan utrustning som föreningen har att tillgå samt att administrera och underhålla utrustning och hemsida.
-
-\subsection{Fysikteknologsektionensspelförening, FyS}
-Fysikteknologsektionens spelförenings syfte är att främja intresset av digitala spel på sektionen.
-
-\newpage
-
-\section{Sektionens ekonomi}
-
-\section{Revision och ansvarsfrihet}
-
-\section{Styrdokument}
-\subsection{Förteckning}
-Följande styrdokument skall finnas på sektionen
-
-\begin{itemize}
-\item Sammanträdesordning sektionsmötet
-\item Riktlinjer för verksamhetsberättelse och ansvarsfrihet
-\item Arbetsordningar
 \end{itemize}
-
-Därtill regleras verksamheten av övriga dokument som sektionsstyrelsen beslutat vara styrdokument. Komplett förteckning över övriga styrdokument skall tillhandahållas av sektionsstyrelsen.
-
-\subsection{Ändrings- och tolkningsfrågor}
-
-\begin{enumerate}[\thesubsection .1]
-\item Vad gäller ändring och tolkning av enskilda styrdokument ska detta anges i de individuella dokumenten. Om uteblivet sker ändringar och tolkningar av sektionsstyrelsen via enkel majoritet. 
-
-\end{enumerate}
-
-\subsubsection{Tolkningstvister}
-
-\begin{enumerate}[\thesubsection .1]
-
-    \item Uppstår tolkningstvist om detta reglementes tolkning skall frågan hänskjutas till sektionens inspektor.
-
-  \item Vid konflikt med Fysikteknologsektionens övriga styrdokument har reglementet företräde.
-
-\end{enumerate}
-
-
-\newpage
-
-\section{Sektionens upplösande}
-\section{Skyddshelgon}
-
-
-\section{Fysikteknologsektionens fonder}
-
-\subsection{Förteckning}
-
-\begin{enumerate}[\thesubsection .1]
-  \item Fysikteknologsektionens fonder är:
-    \begin{itemize}
-      \item F-fonden.
-	  \item Focus-fonden
-    \end{itemize}
-\end{enumerate}
-
-\subsection{F-fonden}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item Sektionens medel bör göras räntebärande genom placering i
-  rän\-te\-fond.
-
-  \item F-Fondens medel kan användas till:
-    \begin{itemize}
-      \item Renovering av Fysikteknologsektionens lokaler.
-      \item Införskaffande och renovering av sektionsbil.
-      \item Inköp av inventarier.
-      \item Att täcka eventuellt överdrag av budgeten.
-      \item Sektionens oförutsedda utgifter.
-      \item Annat som sektionsmötet finner lämpligt.
-    \end{itemize}
-
-  \item Fonden handhas av sektionsstyrelsen.
-
-  \item Uttag ur F-fonden beslutas av sektionsmöte. Sådant uttag kan
-  dock ej göras om ärendet inte upptagits på slutlig
-  föredragningslista.
-
-  \item Sektionsstyrelsen får för den löpande driften låna medel ur
-  F-fonden. Vid sådant lån behöver fonden ej kompenseras för
-  ränteförlusten.
-
-  \item Överblivna medel inom Fysikteknologsektionen skall i möjligaste mån
-  tillfalla fonden. Har styrelsen vid verksamhetsårets slut ej tagit
-  samtliga medel inom budgeten i anspråk, skall överskjutande medel
-  avsättas till F-fonden.
-
-  \item F-fondens medel skall göras räntebärande genom placering i
-  låg\-risk\-fond\-er. Räntan skall fonderas.
-
-  \item När F-fonden understiger det under året gällande basbeloppet
-  skall avsättning till F-fonden ske årligen med minst 15\% av
-  inbetalda sektionsavgifter tills fonden återigen uppgår till minst
-  ett basbelopp.
-
-\end{enumerate}
-
-\subsection{Focus-fonden}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item Att fondera medel för framtida upprustning av Focus.
-
-  \item Focus-fondens medel kan användas till:
-    \begin{itemize}
-      \item Renovering av Focus.
-      \item Inköp av inventarier till Focus.
-    \end{itemize}
-
-  \item Fonden handhas av sektionsstyrelsen i samarbete med DP.
-
-  \item Uttag ur fonden beslutas av sektionsstyrelsen.
-
-  \item Överblivna medel inom budgetposten Focus upprustning tillfaller Focus-fonden vid verksamhetsårets slut.
-  
-  \item Samtliga hyresintäkter för uthyrning av Focus tillfaller Focus-fonden.
-
-  \item Focus-fondens medel skall göras räntebärande genom placering i
-  låg\-risk\-fond\-er. Räntan skall fonderas.
-
-\end{enumerate}
-
-\section{Kommittéoverall}
-
-\subsection{Utseende}
-
-\begin{enumerate}[\thesubsection .1]
-  \item Kommittéoverallen ska:
-    \begin{itemize}
-      \item Vara svart.
-      \item Ha sektionsmärket högt upp på vänster ärm.
-      \item Ha Chalmersmärket högt upp på höger ärm.
-      \item Ha teknologens namn över bröstfickan och/eller på benen.
-      \item Ha kommittésoverallsmärket tryckt på ryggen.
-    \end{itemize}
-\end{enumerate}
-
-\subsection{Bärande}
-
-\begin{enumerate}[\thesubsection .1]
-
-  \item Kommittéoverallen ska bäras på ett sätt som främjar
-  samman\-håll\-ning\-en på sektionen och bland övriga studenter.
-
-\end{enumerate}
-\begin{comment}
-\newpage
-
-\appendix
-
-\section{Förteckning över Dumvästinnehavare}
-
-\label{dumvast}
-
-Här följer samtliga dumvästinnehavare sedan denna förnämliga post
-infördes. Att ingen ny och bättre dumhet hittats på nästa sektionsmöte
-indikeras genom att antalet sektionsmöten återfinns inom parentes. Den
-färskaste innehavaren återfinns överst.
-
-\begin{longtable}{p{55mm}lp{60mm}}
-  \emph{Namn} & \emph{Årskurs} & \emph{Dumhet}\\ \hline
-
-Oskar ''Gurkan'' Sjökvist & f14 & Skrev ut ett labb-PM till expfysen i A0-format. 3 gånger. 
-
-Johanna ''Nioreh'' Renman & f14& Hade sönder Tvåan och hamnade på Hvitfeldska med 11 flak öl under en föräldrakväll. \\\hline
-
-Felix ''Felkan'' Eriksson & f13 & Trodde att pasta växer på träd. \\\hline
-
-Per Ljung & f13 & Klagade över att han inte kunde få tag i någon studentlägenhet närmre Chalmers. Det uppdagades sedan att han på Boplats var registrerad som att han gick i grundskolan. När han väl fick en lägenhet sade han upp sin gamla innnan visningen, varpå han nästan missade att tacka ja till den nya.  \\\hline
-
-Sofia ''Sol'' Toivonen & tm12 & Försökte förgäves rensa vasken på Focus med händerna, utan att inse att problemet var att proppen satt i. \\\hline
-
-Holger ''JudÅ'' Lindström & tm12 & Släppte in Per i DP, iklädd overall, gratis på Gasquen när han sa att han var Nollan. Dessutom hetsade han Liam ''Alfred'' att hoppa på en nollbricka av sten, ett hopp som slutade på Sahlgrenska.\\ \hline
-  
-  Ellinor ''Joel6'' Rånge & tm09 & För att misstagit Äckel för Västtrafik, samt för att ha råkat säga ``då kan ju då gå hem nu'' till en Faktumförsäljare efter att ha köpt dennes sista Faktum.\\ \hline
-  
-  Tobias ''TJ'' Johansson & f12 & Satt uppe hela natten för att färdigställa en förstudie i expfysen. Dagen därpå bytte både
-  han och hans labbpartner till TM.\\ \hline
-
-  Hedvig Sundelin & tm12 & Hamnade på väg till Lappfejden på fel tåg och strandade i Östersund med kläder och en Delta, men utan skor och plånbok.\\ \hline
-  
-  Christoffer ''Hashe'' Hansson &  f13 & Skrev GU:s intromattedugga istället för Chalmers dito trots guidning av FnollK, text på tavla och tes samt att duggan inte liknade de exempelduggor som delats ut.\\ \hline
-    
-Ragnar ''Ragge'' Englund &  f12 & För att misstagit M:s sektionsmöte för en lunchföreläsning och 
-iklädd overall skänkt pengar till dem. \\ \hline
-
-Annika ''Ankan'' Johansson & tm10 & För att ha motions-hetsat till LP2 mötet så att det höll 
-på halva natten.  \\ \hline
-
-Filip ''Fanta'' Hjort & f11 & Ställde  iordning NollK-rummet. Det var även problem med att stänga dörren, men efter att ha blivit övertygad av DP att dom bara hade pimpat dörren lite gick Fanta hem. Det visade sig dock att dom bytt ut dörren mot städskrubbsdörren...\\ \hline
-
-Oscar ''\emph{killen som inte fick upp dörren}'' Kalldal& f11 & För att han inte fick upp dörren när han skulle lämna mötessalen. \\ \hline
-
-F6 11/12 &  & När DP arrangerade julbord innan jul råkade brandlarmet gå. Det visade sig dock att det var F6 som utlöste detta när de mikrade choklad vilket var F6 andra gång och Christmas tredje gång att dra brandlarmet i Forskarhuset. \\ \hline
-
-Rickard Andersson & f10 & Beställde alkohol till pubrundan, kände sedan på dagen till pubrundan att han inte orkade hämta allting själv, så han tar med sig aspar. Vad han inte kontrollerar är om alla aspar fyllt 20. Det var dumt. \\ \hline
-
-
-Agrin Hilmkil & f10 & Kokar 2 liter linssoppa, orkar inte diska matlåda, äter 2 liter linssoppa, får
-våldsamt ont i magen. \\ \hline
-
-Marina Yudanov & f10 & Nominerade Djungelpatrullen för att de gjort
-sina maillistor publika, men insåg allt för sent att hon i princip
-nominerat sig själv (då hon några minuter tidigare valts in som
-adjutant). \\ \hline
-
-  Anton Dalsmo & f07 & Kastade sin ''okrossbara'' mobiltelefon på
-  spårvagnsrälsen, varfter en spårvagn nästan körde över den. \\ \hline
-  
-Soheil Bashirinia och Dündar Göç & f08 & Har i egenskap av Tomte och Lucia
-misslyckats med ett av de mycket få åligganden de har genom att vara i
-Lund och/eller hemma i sängen under sektionsmötet. \\ \hline
-
-Olof Elias & tm09 & Lyckades sätta in 36 000kr av DPs inkomster från
-pubrundan på fel bank. \\ \hline
-
-Kristina Berndtsson & f07 & Betalade sin bostadshyra till
-kåren. \\ \hline
-
-Henning Holmgren & f08 & Lät Carl Södersten, mer känd som Hoff, tvätta
-åt honom. Resultatet blev dock inte bra. Stora fläckar uppenbarade sig
-på kläderna. Efter någon månad visar det sig att fläckarna beror på att
-tvättmedlet har en bild på ett skinande glas på framsidan och alltså inte
-var tvättmedel, utan diskmedel.\\ \hline
-
-666-nollorna & f09 & Misslyckades med att få tag i alkohol och lokal
-till phadderomsitsen inte bara en utan två gånger. Efter sittningen
-glömde man dessutom kvar mäsk i Focus, som, om det inte varit för en
-påpasslig phadder, hade upptäckts under skyddsronden några timmar senare.\\ \hline
-
-Anton 'Smörgås' Guldberg & f08 & Hyrde ut sin lägenhet i sommar och
-ombad hyresgästen att när denne flyttade ut skicka nycklarna till Antons
-adress i Stockholm. Vad Anton glömde bort var att han eftersände all
-post från Stockholm till Göteborg. Något som ledde till att hans nycklar
-till lägenheten i Göteborg så småningom låg i brevinkastet innanför
-ytterdörren till lägenheten i Göteborg.\\ \hline
-
-FnollK 2009 &  & Har lagt ungefär tre timmar på att spola undertråd för hand istället för att använda symaskin.\\ \hline
-
-  Andreas Källberg & tm08 & Stoppade en metallpenna i ett hål vid bänkbelysningen i Focus kök så att allt ljus i Focus försvann och det blev svart kring hålet.\\ \hline
-
-  Anton Guldberg (2) & f08 & Bor på Olofshöjd och åkte till skolan via Korsvägen i två veckor innan han upptäckte hur nära skolan han bor. Har dessutom uppgett adressen till SGS-områdeskontor som sin hemadress då han bl.a. tecknade hemförsäkring. \\ \hline
-
-  Mia Romare & f07 & Hon, när hon städade DP-rummet, lyckades välta originaldokumentet över DP:s skapande tillsammans med ett flertal krönikor ner i skurvattnet på golvet.\\ \hline
-  
-  Marcus Elmer & f04 & Skrev datas tenta i Digital och Datorteknik istället för den för Z och F. Han hade dessutom lyckats sätta Focumama på freeplay och gått därifrån.\\ \hline
-  
-  Erik Larsson & f06 & Plockade ur hatthyllan på Pedrams (FNollK) brors bil och lade den på taket innan han körde iväg med bilen. Hatthyllan blev totalförstörd då den blåste av i en korsning.\\ \hline
-  
-  Jonas Preisz & f03 & Åkte vattenskidor och tappade bilnycklarna i sjön. Lyckades senare upprepa bravaden att tappa nycklarna i sjön när han gästade DP-bastun under nollningen.\\ \hline
-  
-  Marianne Berg & f06 & Lyckades skicka iväg sin dator på tåget hem utan att själv lyckas komma med.\\ \hline
-
-  FnollK 2006 (2) &  & Nollade fel val på muséet. Kaskelotten som strandade i Askim fick istället nollbricka.\\ \hline
-
-  Martin Nyman & f02 & Efter att Britney fått slut på batteri och Martin fått reda på att han var tvungen att köra i minst en timme fick han raskt kärringstopp mitt i en korsning, vilket ledde till bärgning.\\ \hline
-  
-  Leif Sandqvist & f03 & En hetsig tevekontrollant krävde att Leif skulle betala TV-avgift. Detta gjorde Leif och tänkte sen överklaga, men insåg försent att hans betalning gjorde att han ansågs skyldig. Leif lyckades därmed betala TV-avgift trots att han inte har TV.\\ \hline
-
-  Philip Krantz (2) & f04 & Philip lyckades inför de nya nollorna förklara att \char`\"er första sittning har ni ju nu på torsdag\char`\". D.v.s. den som är hemlig...\\ \hline
-
-  Daniel Westerbeg & f03 & Daniel skulle svinga sig över en bäck och misslyckades. Därefter blev han förvånad och arg över att hans cigaretter var blöta.\\ \hline
-
-  Sektionsmötet feb. 2005 & & Sektionsmötet röstade igenom en motion om att en operation för att ta över alla andra sektioner skulle förberedas. Därefter beslutade mötet att detta var dumt och utsåg därefter sektionsordföranden (som varit emot motionen) som  representant att bära västen.\\ \hline
-
-  Emelie Bylund & f03 & Emelie tyckte att det var ett bra och roligt förslag att elda upp en sko. Hon insåg försent att det var hennes egen sko det rörde sig om.\\ \hline
-
-  Johan Wikstrand & f01 & \\ \hline
-  Simon Griph & f01 & \\ \hline
-  Viktor Griph & f03 & \\ \hline
-  Pauliina Wright & f02 & \\ \hline
-  David Kallionemi & f01 & \\ \hline
-  Jens Kabo & f00  & \\ \hline
-  Karin Magnander & f00 & \\ \hline
-  Maria Widmark & f99 & \\ \hline
-  Nils Eriksson & f00 & \\ \hline
-  Carl Sunde & f96 & \\ \hline
-  David Carlen & f98 & \\ \hline
-  Linda-Maria Johansson (2) & f99 & \\ \hline
-  Gustav Eklund (2) & f99 & \\ \hline
-  Carl Bohman (2) & f98 & \\ \hline
-  Mattias Henrysson & f93 & \\ \hline
-  Henrik S Karlsson & f95 & \\ \hline
-  Olof Johansson & f97 & \\ \hline
-  Dan Petersson & f95 & \\ \hline
-  Maria Johannesson & f96 & \\ \hline
-  Fredrik Karlsson & f96 & \\ \hline
-  Erik Halvordsson & f96 & \\ \hline
-  Mattias Heimdahl & f96 & \\ \hline
-  Carl Larsson & f95 & \\ \hline
-  Andreas Lindberg & f95 & \\ \hline
-  Henrik Karlsson & f95 & \\ \hline
-  Erik Setterberg & f95 & \\ \hline
-  Kristian Acelsson & & \\ \hline
-  Ulf Söderberg & f91 & \\ \hline
-  Simon Carlsson & f91 & \\ \hline
-  Egil Benito & f91 & \\ \hline
-  Jon-Anders Bäcker & kf92 & \\ \hline
-  Peter Johansson & f92 & \\ \hline
-  Carl Sundblad & f91 & \\ \hline
-  Dolph & f92 & \\ \hline
-  Morten Postrup & f93 & \\ \hline
-  Jesper Nilsson (2) & f92 & \\ \hline
-  Martin Gedeck & kf92 & \\ \hline
-  Johan Liljequist & f91 & \\ \hline
-  Peter Lagerlöf & f91 & \\ \hline
-  Jonas Hansen & f90 & \\ \hline
-
-\end{longtable}
-
-\end{comment}
 \end{document}
